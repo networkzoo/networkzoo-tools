@@ -373,6 +373,46 @@ const SophosUsageTracker = () => {
         }
     };
 
+    /* ── Build config from historical data ────────────────────────────── */
+    const handleBuildFromHistory = () => {
+        if (!Object.keys(historicalData).length) return;
+        const existing = new Set(clientSkuConfig.map(c => `${c.clientName}|||${c.sku}`));
+        const newCfgs = [];
+
+        // Collect all unique client+sku keys across all months, tracking most recent qty
+        const keyMap = {}; // key -> { latestQty, monthsSeen }
+        const sortedMonths = Object.keys(historicalData)
+            .map(label => ({ label, date: parseMonthLabel(label) }))
+            .filter(m => m.date)
+            .sort((a, b) => a.date - b.date);
+
+        sortedMonths.forEach(({ label }) => {
+            const snapshot = historicalData[label];
+            Object.entries(snapshot).forEach(([key, qty]) => {
+                if (!keyMap[key]) keyMap[key] = { latestQty: qty };
+                else keyMap[key].latestQty = qty; // later month overwrites → most recent
+            });
+        });
+
+        Object.entries(keyMap).forEach(([key, { latestQty }]) => {
+            if (existing.has(key)) return;
+            const [clientName, sku] = key.split('|||');
+            if (!clientName || !sku) return;
+            newCfgs.push({
+                clientName, sku, description: '',
+                trackUsage: true, expectedQty: latestQty, billingRate: 0
+            });
+            existing.add(key);
+        });
+
+        if (newCfgs.length) {
+            setClientSkuConfig(prev => [...prev, ...newCfgs]);
+            alert(`Added ${newCfgs.length} entries from history. Set billing rates to enable revenue tracking.`);
+        } else {
+            alert('All historical client/SKU combinations are already configured.');
+        }
+    };
+
     /* ── Central catalog import ───────────────────────────────────────── */
     const handleImportCatalog = (e) => {
         const file = e.target.files[0];
@@ -581,6 +621,12 @@ const SophosUsageTracker = () => {
                                     onChange={e => setMarkupPct(parseFloat(e.target.value) || 0)}
                                     className="w-20 px-2 py-1 bg-slate-800 border border-slate-600 rounded text-white text-sm mono focus:outline-none focus:ring-2 focus:ring-sky-400" />
                             </div>
+                            {Object.keys(historicalData).length > 0 && (
+                                <button onClick={handleBuildFromHistory}
+                                    className="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-lg font-medium transition-colors">
+                                    📂 Build from History
+                                </button>
+                            )}
                             {invoiceData.length > 0 && (
                                 <button onClick={handleAutoPopulate}
                                     className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-medium transition-colors">
