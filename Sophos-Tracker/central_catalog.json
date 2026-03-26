@@ -1,0 +1,3316 @@
+{
+  "generatedAt": "2026-03-26",
+  "productNames": {
+    "CIXAMTR-ADV-MSP": "Sophos MDR Complete - User",
+    "SVRCIXAMTR-ADV-MSP": "Sophos MDR Complete - Server",
+    "CIXAMTR-STD-MSP": "Sophos MDR Essentials - User",
+    "SVRCIXAMTR-STD-MSP": "Sophos MDR Essentials - Server",
+    "CIXA-MSP": "Sophos Endpoint - User",
+    "CW7-SUP-MSP": "Sophos Endpoint - Server",
+    "CEMA-MSP": "Sophos Central Email Advanced - User",
+    "CEMA-PE-ADDON-MSP": "Sophos Email PE Add-on",
+    "CZTNA-MSP": "Sophos Zero Trust Network Access - User",
+    "EDR-MSP": "Sophos EDR - User",
+    "XDR-MSP": "Sophos XDR - User",
+    "SVREDR-MSP": "Sophos EDR - Server",
+    "SVRXDR-MSP": "Sophos XDR - Server",
+    "NDR-MSP": "Sophos Network Detection and Response",
+    "ITDR-MSP": "Sophos Identity Threat Detection",
+    "CFR-MSP": "Sophos Cloud Firewall Rules",
+    "CDE-MSP": "Sophos Central Device Encryption",
+    "CMA-MSP": "Sophos Mobile Advanced",
+    "COPX-MSP": "Sophos Phish Threat",
+    "CPHISH-MSP": "Sophos Phishing Simulation",
+    "CIXMOB-MSP": "Sophos Intercept X Mobile",
+    "SVRCLOUDADV-MSP": "Sophos Cloud Workload Protection",
+    "CWP-MSP": "Sophos Cloud Workload Protection",
+    "AP6-420-SUP-MSP": "Sophos AP6 420 Support",
+    "AP6-420E-SUP-MSP": "Sophos AP6 420E Support",
+    "AP6-420X-SUP-MSP": "Sophos AP6 420X Support",
+    "AP6-840-SUP-MSP": "Sophos AP6 840 Support",
+    "AP6-840E-SUP-MSP": "Sophos AP6 840E Support",
+    "CS101-8-SUP-MSP": "Sophos Switch CS101-8 Support",
+    "CS101-8FP-SUP-MSP": "Sophos Switch CS101-8FP Support",
+    "CS1010-8FP-SUP-MSP": "Sophos Switch CS1010-8FP Support",
+    "CS110-24-SUP-MSP": "Sophos Switch CS110-24 Support",
+    "CS110-24FP-SUP-MSP": "Sophos Switch CS110-24FP Support",
+    "CS110-48-SUP-MSP": "Sophos Switch CS110-48 Support",
+    "CS110-48FP-SUP-MSP": "Sophos Switch CS110-48FP Support",
+    "CS110-48P-SUP-MSP": "Sophos Switch CS110-48P Support",
+    "CS210-24FP-SUP-MSP": "Sophos Switch CS210-24FP Support",
+    "CS210-48FP-SUP-MSP": "Sophos Switch CS210-48FP Support",
+    "CS210-8FP-SUP-MSP": "Sophos Switch CS210-8FP Support"
+  },
+  "tenants": {
+    "Precision Cutting and Coring": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Protech Consulting": [
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      }
+    ],
+    "Everden Rust": [
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      }
+    ],
+    "Alpine Abatements": [
+      {
+        "productCode": "EDR-MSP",
+        "description": "Sophos EDR - User"
+      },
+      {
+        "productCode": "SVREDR-MSP",
+        "description": "Sophos EDR - Server"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "ApexBusinessSolutions": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "SVRXDR-MSP",
+        "description": "Sophos XDR - Server"
+      },
+      {
+        "productCode": "CWP-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Black Sheep Restaurant Group": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Bouchon Bistro": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Big O Tire Victoria": [
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      }
+    ],
+    "Ashley home store Victoria": [
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      }
+    ],
+    "Innascore Developments Inc.": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CIXMOB-MSP",
+        "description": "Sophos Intercept X Mobile"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Paula Overland Tax Accountants": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "DDT Developments": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Tafco Realty Corp": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Drouillard Lawyers": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Scuka Construction": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Valroso Foods": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Coldstream Lumber": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "SVRXDR-MSP",
+        "description": "Sophos XDR - Server"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "XDR-MSP",
+        "description": "Sophos XDR - User"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Thibault Financial Ltd O/A Serviss Wealth Management": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "ITDR-MSP",
+        "description": "Sophos Identity Threat Detection"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Bernard P Claude Inc": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CEMA-PE-ADDON-MSP",
+        "description": "Sophos Email PE Add-on"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Sambrielaz, Andy Ca": [
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      }
+    ],
+    "Everclear Wealth Management": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CWP-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "ITDR-MSP",
+        "description": "Sophos Identity Threat Detection"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Smithson Employment Law Corporation": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "ITDR-MSP",
+        "description": "Sophos Identity Threat Detection"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      }
+    ],
+    "Apache Powerline Consulting Ltd.": [
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      }
+    ],
+    "Eagle Eavestroughing": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Auto West": [
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "All Occasions Party and Event Rentals": [
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      }
+    ],
+    "Steve Burns Inc": [
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      }
+    ],
+    "BC Tree Fruits Partnership": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Amber Bell CPA": [
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Lindsay Barnard Inc": [
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Studio9 School of the Arts": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Novem Pharmaceuticals": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Valeo Health Clinic": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "West Manufacturing Ltd": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Supplement King": [
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "SVRXDR-MSP",
+        "description": "Sophos XDR - Server"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "CIXAMTR-STD-MSP",
+        "description": "Sophos MDR Essentials - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Chevy's Source for Sports": [
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "CIXAMTR-STD-MSP",
+        "description": "Sophos MDR Essentials - User"
+      },
+      {
+        "productCode": "SVRCIXAMTR-STD-MSP",
+        "description": "Sophos MDR Essentials - Server"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Dr Maria Brake": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Fripp Warehousing": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Somers Screens": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Station Hospitality Group": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Western Joint Electrical Training Society": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CIXAMTR-STD-MSP",
+        "description": "Sophos MDR Essentials - User"
+      },
+      {
+        "productCode": "SVRCIXAMTR-STD-MSP",
+        "description": "Sophos MDR Essentials - Server"
+      }
+    ],
+    "Network Forge Inc": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Insure Force West Services Ltd": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      }
+    ],
+    "Mediterranean Market Kelowna": [
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      }
+    ],
+    "Collaborate Property Management": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Vivid Laser Center": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Sovereign Lake Nordic Club": [
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      }
+    ],
+    "Shoebox Small Business Solutions Inc": [
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CIXA-MSP",
+        "description": "Sophos Endpoint - User"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "SVRCLOUDADV-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      }
+    ],
+    "Enmerge Inc": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Patrick McCusker Architecture": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "CIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - User"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "SVRCIXAMTR-ADV-MSP",
+        "description": "Sophos MDR Complete - Server"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "CW7-SUP-MSP",
+        "description": "Sophos Endpoint - Server"
+      },
+      {
+        "productCode": "CPHISH-MSP",
+        "description": "Sophos Phishing Simulation"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ],
+    "Longhorn Oilfield Services": [
+      {
+        "productCode": "CS110-24-SUP-MSP",
+        "description": "Sophos Switch CS110-24 Support"
+      },
+      {
+        "productCode": "AP6-420-SUP-MSP",
+        "description": "Sophos AP6 420 Support"
+      },
+      {
+        "productCode": "SVRXDR-MSP",
+        "description": "Sophos XDR - Server"
+      },
+      {
+        "productCode": "CWP-MSP",
+        "description": "Sophos Cloud Workload Protection"
+      },
+      {
+        "productCode": "CS110-48-SUP-MSP",
+        "description": "Sophos Switch CS110-48 Support"
+      },
+      {
+        "productCode": "CS110-48FP-SUP-MSP",
+        "description": "Sophos Switch CS110-48FP Support"
+      },
+      {
+        "productCode": "CZTNA-MSP",
+        "description": "Sophos Zero Trust Network Access - User"
+      },
+      {
+        "productCode": "NDR-MSP",
+        "description": "Sophos Network Detection and Response"
+      },
+      {
+        "productCode": "CS210-48FP-SUP-MSP",
+        "description": "Sophos Switch CS210-48FP Support"
+      },
+      {
+        "productCode": "CMA-MSP",
+        "description": "Sophos Mobile Advanced"
+      },
+      {
+        "productCode": "AP6-840E-SUP-MSP",
+        "description": "Sophos AP6 840E Support"
+      },
+      {
+        "productCode": "CS1010-8FP-SUP-MSP",
+        "description": "Sophos Switch CS1010-8FP Support"
+      },
+      {
+        "productCode": "AP6-420E-SUP-MSP",
+        "description": "Sophos AP6 420E Support"
+      },
+      {
+        "productCode": "CS110-24FP-SUP-MSP",
+        "description": "Sophos Switch CS110-24FP Support"
+      },
+      {
+        "productCode": "CIXAMTR-STD-MSP",
+        "description": "Sophos MDR Essentials - User"
+      },
+      {
+        "productCode": "CS110-48P-SUP-MSP",
+        "description": "Sophos Switch CS110-48P Support"
+      },
+      {
+        "productCode": "CS101-8-SUP-MSP",
+        "description": "Sophos Switch CS101-8 Support"
+      },
+      {
+        "productCode": "CFR-MSP",
+        "description": "Sophos Cloud Firewall Rules"
+      },
+      {
+        "productCode": "CS210-24FP-SUP-MSP",
+        "description": "Sophos Switch CS210-24FP Support"
+      },
+      {
+        "productCode": "AP6-420X-SUP-MSP",
+        "description": "Sophos AP6 420X Support"
+      },
+      {
+        "productCode": "AP6-840-SUP-MSP",
+        "description": "Sophos AP6 840 Support"
+      },
+      {
+        "productCode": "CDE-MSP",
+        "description": "Sophos Central Device Encryption"
+      },
+      {
+        "productCode": "COPX-MSP",
+        "description": "Sophos Phish Threat"
+      },
+      {
+        "productCode": "CEMA-MSP",
+        "description": "Sophos Central Email Advanced - User"
+      },
+      {
+        "productCode": "CS101-8FP-SUP-MSP",
+        "description": "Sophos Switch CS101-8FP Support"
+      },
+      {
+        "productCode": "CS210-8FP-SUP-MSP",
+        "description": "Sophos Switch CS210-8FP Support"
+      }
+    ]
+  }
+}

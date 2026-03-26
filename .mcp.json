@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "sophos-central": {
+      "command": "python",
+      "args": [
+        "D:/profile/Network Zoo/Sanctuary - Documents/Utilities/Web/Sophos_MCP/server.py"
+      ]
+    }
+  }
+}

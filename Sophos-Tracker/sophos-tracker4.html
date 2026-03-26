@@ -188,6 +188,7 @@ const SophosUsageTracker = () => {
     const [bulkProgress,    setBulkProgress]    = useState('');
     const [markupPct,       setMarkupPct]       = useState(40);
     const [saveStatus,      setSaveStatus]      = useState('');
+    const [centralCatalog,  setCentralCatalog]  = useState(null); // { generatedAt, productNames, tenants }
 
     /* ── Load from IndexedDB on mount ──────────────────────────────────── */
     useEffect(() => {
@@ -225,6 +226,10 @@ const SophosUsageTracker = () => {
                     } catch (e) { console.error('Config migration error:', e); }
                 }
             }
+
+            // Central catalog
+            const cat = await dbGet(STORE_CFG, 'centralCatalog');
+            if (cat) setCentralCatalog(cat.data);
 
             // Serial config
             const scfg = await dbGet(STORE_CFG, 'serialConfig');
@@ -342,8 +347,18 @@ const SophosUsageTracker = () => {
             const key = `${client}|||${sku}`;
             if (!existing.has(key)) {
                 const unitCost = qty > 0 ? cost / qty : 0;
+                // CSV description is the best source; catalog product names are a fallback
+                let desc = description || '';
+                if (!desc && centralCatalog) {
+                    const tenantProds = centralCatalog.tenants[client] || [];
+                    const catalogMatch = tenantProds.find(p =>
+                        centralCatalog.productNames[p.productCode] &&
+                        (sku.includes(p.productCode.replace(/-MSP$/, '').replace(/-SUP$/, '')) || p.productCode.length > 4)
+                    );
+                    if (catalogMatch) desc = centralCatalog.productNames[catalogMatch.productCode] || '';
+                }
                 newCfgs.push({
-                    clientName: client, sku, description: description || '',
+                    clientName: client, sku, description: desc,
                     trackUsage: true, expectedQty: qty,
                     billingRate: Math.round(unitCost * (1 + markupPct / 100) * 100) / 100
                 });
@@ -356,6 +371,28 @@ const SophosUsageTracker = () => {
         } else {
             alert('All CSV entries are already configured.');
         }
+    };
+
+    /* ── Central catalog import ───────────────────────────────────────── */
+    const handleImportCatalog = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async (ev) => {
+            try {
+                const data = JSON.parse(ev.target.result);
+                if (!data.tenants || !data.productNames) {
+                    alert('Invalid catalog file — expected generatedAt, productNames, tenants fields.');
+                    return;
+                }
+                setCentralCatalog(data);
+                await dbPut(STORE_CFG, { id: 'centralCatalog', data });
+                alert(`Catalog loaded: ${Object.keys(data.tenants).length} tenants, generated ${data.generatedAt}`);
+            } catch (err) {
+                alert('Error parsing catalog: ' + err.message);
+            }
+        };
+        reader.readAsText(file);
     };
 
     /* ── Export helper ─────────────────────────────────────────────────── */
@@ -513,6 +550,22 @@ const SophosUsageTracker = () => {
                                     {bulkProgress}
                                 </div>
                             )}
+                        </div>
+
+                        {/* Central Catalog status */}
+                        <div className="border-t border-slate-600 pt-4 flex items-center justify-between gap-4">
+                            <div className="flex items-center gap-3">
+                                <div className={`w-2.5 h-2.5 rounded-full ${centralCatalog ? 'bg-emerald-400' : 'bg-slate-600'}`} />
+                                <span className="text-sm text-slate-300">
+                                    {centralCatalog
+                                        ? <>Central Catalog loaded — <span className="text-sky-300">{Object.keys(centralCatalog.tenants).length} tenants</span>, generated <span className="mono text-slate-400">{centralCatalog.generatedAt}</span></>
+                                        : 'No Central Catalog loaded — import central_catalog.json to enable tenant autocomplete'}
+                                </span>
+                            </div>
+                            <label className="px-4 py-2 bg-indigo-700 hover:bg-indigo-600 text-white rounded-lg cursor-pointer transition-colors text-sm whitespace-nowrap">
+                                {centralCatalog ? 'Update Catalog' : 'Load Central Catalog'}
+                                <input type="file" accept=".json" className="hidden" onChange={handleImportCatalog} />
+                            </label>
                         </div>
                     </div>
                 </div>
