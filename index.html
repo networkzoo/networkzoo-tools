@@ -124,6 +124,51 @@
             background: #e0e7ff;
             color: #3730a3;
         }
+
+        /* Bills expandable tile */
+        .tool-card.expandable {
+            cursor: pointer;
+            user-select: none;
+        }
+        .tool-card.expandable.open {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .bill-submenu {
+            display: none;
+            background: #f7f9fc;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: -2rem;
+            padding-top: 2rem;
+        }
+        .bill-submenu.open { display: block; }
+        .bill-submenu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            color: #2c3e50;
+            border-bottom: 1px solid #e2e8f0;
+            transition: background 0.15s;
+        }
+        .bill-submenu a:last-child { border-bottom: none; }
+        .bill-submenu a:hover { background: #eef2ff; }
+        .bill-submenu .sub-icon { font-size: 1.5rem; flex-shrink: 0; }
+        .bill-submenu .sub-title { font-weight: 700; font-size: 0.95rem; }
+        .bill-submenu .sub-desc  { font-size: 0.8rem; color: #7f8c8d; margin-top: 0.1rem; }
+        .chevron {
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: #aaa;
+            transition: transform 0.2s;
+        }
+        .tool-card.open .chevron { transform: rotate(180deg); }
         
         footer {
             text-align: center;
@@ -206,14 +251,37 @@
                     <span class="status-badge status-netbird">Netbird Required</span>
                 </a>
 
-                <a href="http://win-k2p3qor5ri6.netbird.cloud:8082/writeoff" class="tool-card" target="_blank">
-                    <div class="tool-icon">📒</div>
-                    <div class="tool-title">QBO Write-Off &amp; Payments</div>
+                <div class="tool-card expandable" onclick="toggleBills(this)" id="billsTile">
+                    <div class="tool-icon">🧾</div>
+                    <div class="tool-title">Bills <span class="chevron">▼</span></div>
                     <div class="tool-description">
-                        Write off historical bad debt invoices or backfill unreconciled payments in QuickBooks Online. Supports credit memo write-offs, payment backfill with configurable net days, and CM cleanup.
+                        Upload vendor invoices, bulk-fix account/tax on existing bills, and manage write-offs &amp; payments in QuickBooks Online.
                     </div>
                     <span class="status-badge status-netbird">Netbird Required</span>
-                </a>
+                </div>
+                <div class="bill-submenu" id="billsMenu">
+                    <a href="http://win-k2p3qor5ri6.netbird.cloud:8082/bill-upload" target="_blank">
+                        <span class="sub-icon">📤</span>
+                        <div>
+                            <div class="sub-title">Upload Bill</div>
+                            <div class="sub-desc">Upload a vendor XLSX → extract totals → create QBO Bill (Climb, Pax8, Provision…)</div>
+                        </div>
+                    </a>
+                    <a href="http://win-k2p3qor5ri6.netbird.cloud:8082/bill-fix" target="_blank">
+                        <span class="sub-icon">🔧</span>
+                        <div>
+                            <div class="sub-title">Fix Bills</div>
+                            <div class="sub-desc">Bulk-update account category &amp; tax code on existing QBO bills</div>
+                        </div>
+                    </a>
+                    <a href="http://win-k2p3qor5ri6.netbird.cloud:8082/writeoff" target="_blank">
+                        <span class="sub-icon">📒</span>
+                        <div>
+                            <div class="sub-title">Write-offs &amp; Payments</div>
+                            <div class="sub-desc">Bad debt write-offs, payment backfill, credit memo cleanup</div>
+                        </div>
+                    </a>
+                </div>
 
                 <a href="http://win-k2p3qor5ri6.netbird.cloud:8082/sophos" class="tool-card" target="_blank">
                     <div class="tool-icon">🔄</div>
@@ -272,5 +340,12 @@
             <p style="font-size: 0.9rem; margin-top: 0.5rem;">300-1433 St Paul St, Kelowna V1Y 2E4</p>
         </footer>
     </div>
+<script>
+function toggleBills(card) {
+    const menu = document.getElementById('billsMenu');
+    const open = card.classList.toggle('open');
+    menu.classList.toggle('open', open);
+}
+</script>
 </body>
 </html>
