@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Waiver Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 3rem;
+        }
+
+        h1 { color: #1a202c; font-size: 2rem; margin-bottom: 0.5rem; }
+        .subtitle { color: #718096; margin-bottom: 2rem; }
+
+        .warning-banner {
+            background: linear-gradient(135deg, #fff5f5, #fed7d7);
+            border: 2px solid #fc8181;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .warning-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .warning-text { color: #742a2a; font-size: 0.9rem; line-height: 1.6; }
+        .warning-text strong { display: block; margin-bottom: 0.25rem; font-size: 1rem; }
+
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .form-section:last-of-type { border-bottom: none; }
+
+        .section-title {
+            font-size: 1.25rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea { resize: vertical; min-height: 60px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+
+        /* Service opt-out checkboxes */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .service-option {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .service-option:hover { border-color: #fc8181; background: #fff5f5; }
+
+        .service-option.selected {
+            border-color: #e53e3e;
+            background: linear-gradient(135deg, #fff5f5, #fed7d7);
+        }
+
+        .service-option input[type="checkbox"] {
+            margin-top: 0.15rem;
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            accent-color: #e53e3e;
+        }
+
+        .service-label { font-size: 0.9rem; }
+        .service-label strong { display: block; color: #2d3748; font-weight: 600; }
+        .service-label span { color: #718096; font-size: 0.8rem; }
+
+        .acknowledgment-box {
+            background: #fffaf0;
+            border: 2px solid #ed8936;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .acknowledgment-box p {
+            color: #744210;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+        .acknowledgment-box p:last-child { margin-bottom: 0; }
+
+        .generate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 1rem;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(229, 62, 62, 0.4);
+        }
+
+        .generate-btn:active { transform: translateY(0); }
+
+        .note {
+            text-align: center;
+            color: #718096;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚠️ Cybersecurity Waiver Generator</h1>
+        <p class="subtitle">Generate a liability waiver for clients who decline recommended cybersecurity services.</p>
+
+        <div class="warning-banner">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-text">
+                <strong>Legal Notice</strong>
+                This waiver is provided as an internal tool for documentation purposes. Network Zoo Ltd recommends having a qualified legal professional review this document before use. This waiver does not constitute legal advice.
+            </div>
+        </div>
+
+        <form id="waiverForm">
+            <div class="form-section">
+                <h2 class="section-title">Client Information</h2>
+                <div class="form-group">
+                    <label for="clientName">Client / Company Name</label>
+                    <input type="text" id="clientName" placeholder="e.g. Acme Corp Ltd" required>
+                </div>
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="contactName">Authorized Signatory Name</label>
+                        <input type="text" id="contactName" placeholder="e.g. Jane Smith" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactTitle">Title / Position</label>
+                        <input type="text" id="contactTitle" placeholder="e.g. CEO, Office Manager">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="clientAddress">Client Address</label>
+                    <textarea id="clientAddress" rows="2" placeholder="Street, City, Province, Postal Code"></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="section-title">Services Being Declined</h2>
+                <p style="color: #718096; font-size: 0.9rem; margin-bottom: 1rem;">Select all cybersecurity services the client is choosing not to subscribe to:</p>
+                <div class="services-grid">
+                    <label class="service-option" id="opt-mdr">
+                        <input type="checkbox" name="declined" value="mdr" onchange="toggleOption('opt-mdr', this)">
+                        <div class="service-label">
+                            <strong>Endpoint Protection</strong>
+                            <span>Sophos MDR Essentials / Complete</span>
+                        </div>
+                    </label>
+                    <label class="service-option" id="opt-itdr">
+                        <input type="checkbox" name="declined" value="itdr" onchange="toggleOption('opt-itdr', this)">
+                        <div class="service-label">
+                            <strong>Identity Threat Detection</strong>
+                            <span>Sophos ITDR</span>
+                        </div>
+                    </label>
+                    <label class="service-option" id="opt-m365backup">
+                        <input type="checkbox" name="declined" value="m365backup" onchange="toggleOption('opt-m365backup', this)">
+                        <div class="service-label">
+                            <strong>Microsoft 365 Backups</strong>
+                            <span>Axcient M365 cloud backup</span>
+                        </div>
+                    </label>
+                    <label class="service-option" id="opt-devicebackup">
+                        <input type="checkbox" name="declined" value="devicebackup" onchange="toggleOption('opt-devicebackup', this)">
+                        <div class="service-label">
+                            <strong>Computer / Server Backups</strong>
+                            <span>Axcient device backup</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="section-title">What the Client is Acknowledging</h2>
+                <div class="acknowledgment-box">
+                    <p>By signing this waiver, the client will explicitly acknowledge the following risks:</p>
+                    <p> <strong>Ransomware &amp; Malware:</strong> Without endpoint protection, systems are vulnerable to ransomware, viruses, and malicious software that can encrypt or destroy business data.</p>
+                    <p> <strong>Unauthorized Access &amp; Identity Theft:</strong> Without ITDR, compromised credentials and identity-based attacks may go undetected, leading to unauthorized access to systems and sensitive data.</p>
+                    <p> <strong>Permanent Data Loss:</strong> Without backups, data deleted, corrupted, or encrypted by ransomware cannot be recovered. Microsoft 365 does not retain deleted data indefinitely.</p>
+                    <p> <strong>Business Interruption &amp; Financial Loss:</strong> Security incidents can result in extended downtime, productivity loss, emergency recovery costs, ransom payments, and reputational damage.</p>
+                    <p>⚖️ <strong>Regulatory &amp; Legal Exposure:</strong> Data breaches involving client or employee personal information may carry legal obligations and fines under applicable privacy laws (PIPEDA, BC PIPA).</p>
+                </div>
+            </div>
+
+            <button type="submit" class="generate-btn">⬇️ Generate Waiver Document</button>
+            <p class="note">Generates a styled HTML document ready to print or save as PDF</p>
+        </form>
+    </div>
+
+    <script>
+        function toggleOption(id, checkbox) {
+            const el = document.getElementById(id);
+            if (checkbox.checked) {
+                el.classList.add('selected');
+            } else {
+                el.classList.remove('selected');
+            }
+        }
+
+        const serviceDetails = {
+            mdr: {
+                name: 'Endpoint Protection (Sophos MDR)',
+                description: 'Managed Detection and Response endpoint security, including real-time threat monitoring, antivirus/anti-malware protection, and incident response.',
+                risks: [
+                    'Undetected malware, ransomware, and virus infections on company devices',
+                    'No managed incident response in the event of a security breach',
+                    'No centralized visibility into endpoint security posture',
+                    'Encryption and data destruction by ransomware actors'
+                ]
+            },
+            itdr: {
+                name: 'Identity Threat Detection and Response (Sophos ITDR)',
+                description: 'Monitoring and protection against identity-based attacks including compromised credentials, unauthorized access, and Active Directory threats.',
+                risks: [
+                    'Compromised user accounts going undetected',
+                    'Unauthorized access to internal systems and data',
+                    'Business email compromise (BEC) and phishing exploitation',
+                    'Active Directory attacks leading to full network compromise'
+                ]
+            },
+            m365backup: {
+                name: 'Microsoft 365 Cloud Backup (Axcient)',
+                description: 'Automated daily backups of Microsoft 365 data including Exchange email, SharePoint, OneDrive, and Microsoft Teams content.',
+                risks: [
+                    'Permanent loss of email, files, and Teams data if accidentally deleted or corrupted',
+                    'No recovery path if Microsoft 365 data is encrypted by ransomware',
+                    'Microsoft\'s native retention policies do not constitute a full backup',
+                    'Inability to meet data retention obligations without independent backup'
+                ]
+            },
+            devicebackup: {
+                name: 'Computer and Server Backup (Axcient)',
+                description: 'Automated backup of local computers and servers, enabling recovery of files, system states, and full machine images.',
+                risks: [
+                    'Permanent loss of locally stored business data in the event of hardware failure',
+                    'No recovery path for servers or workstations affected by ransomware',
+                    'Extended downtime and data recreation costs following a failure event',
+                    'Loss of business-critical applications, configurations, and historical data'
+                ]
+            }
+        };
+
+        document.getElementById('waiverForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const clientName = document.getElementById('clientName').value.trim();
+            const contactName = document.getElementById('contactName').value.trim();
+            const contactTitle = document.getElementById('contactTitle').value.trim();
+            const clientAddress = document.getElementById('clientAddress').value.trim();
+
+            const declined = [...document.querySelectorAll('input[name="declined"]:checked')].map(cb => cb.value);
+
+            if (declined.length === 0) {
+                alert('Please select at least one service the client is declining.');
+                return;
+            }
+
+            const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            const declinedHTML = declined.map((key, i) => {
+                const svc = serviceDetails[key];
+                return `
+                <div class="declined-service">
+                    <h3>${i + 1}. ${svc.name}</h3>
+                    <p>${svc.description}</p>
+                    <p class="risk-intro">By declining this service, Client acknowledges the following risks:</p>
+                    <ul>
+                        ${svc.risks.map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                </div>`;
+            }).join('');
+
+            const declinedListText = declined.map(key => serviceDetails[key].name).join(', ');
+
+            const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Waiver - ${clientName}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a202c;
+            background: #f7fafc;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #e53e3e;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+        h1 { font-size: 1.9rem; color: #2d3748; margin-bottom: 0.5rem; }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .date { color: #718096; font-size: 0.95rem; margin-top: 1rem; }
+        .parties {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #fff5f5;
+            border-radius: 8px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .party h2 {
+            font-size: 1rem;
+            color: #e53e3e;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e53e3e;
+        }
+        .party p { margin: 0.25rem 0; font-size: 0.95rem; }
+        .party strong { color: #2d3748; }
+        .section { margin: 2rem 0; }
+        .section-title {
+            font-size: 1.2rem;
+            color: #2d3748;
+            margin: 1.5rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        p { margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .intro-statement {
+            background: #fffaf0;
+            border-left: 4px solid #ed8936;
+            padding: 1.25rem 1.5rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+            color: #744210;
+            line-height: 1.7;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .declined-service {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-left: 4px solid #e53e3e;
+            border-radius: 6px;
+            padding: 1.25rem 1.5rem;
+            margin: 1rem 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .declined-service h3 {
+            font-size: 1rem;
+            color: #c53030;
+            margin-bottom: 0.5rem;
+        }
+        .declined-service p { color: #4a5568; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .risk-intro { font-weight: 600; color: #742a2a !important; }
+        .declined-service ul { list-style: none; padding-left: 0; margin-top: 0.5rem; }
+        .declined-service li {
+            padding: 0.3rem 0 0.3rem 1.5rem;
+            position: relative;
+            font-size: 0.88rem;
+            color: #4a5568;
+        }
+        .declined-service li:before {
+            content: "⚠";
+            position: absolute;
+            left: 0;
+            color: #e53e3e;
+            font-size: 0.85rem;
+        }
+        .liability-box {
+            background: #1a202c;
+            color: #f7fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .liability-box h3 { color: #fc8181; margin-bottom: 0.75rem; font-size: 1rem; }
+        .liability-box p { color: #e2e8f0; font-size: 0.9rem; margin-bottom: 0.5rem; line-height: 1.7; }
+        .signatures {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
+        .sig-block h3 { font-size: 1rem; color: #2d3748; margin-bottom: 2rem; }
+        .sig-line {
+            border-top: 2px solid #2d3748;
+            margin: 3rem 0 0.5rem 0;
+        }
+        .sig-label { color: #718096; font-size: 0.82rem; }
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>CYBERSECURITY SERVICES DECLINATION &amp; LIABILITY WAIVER</h1>
+        <span class="badge">⚠️ CLIENT WAIVER DOCUMENT</span>
+        <p class="date">Date: ${today}</p>
+    </div>
+
+    <div class="parties">
+        <div class="party">
+            <h2>SERVICE PROVIDER</h2>
+            <p><strong>Network Zoo Ltd</strong></p>
+            <p>300-1433 St Paul St</p>
+            <p>Kelowna V1Y 2E4</p>
+            <p>("Provider")</p>
+        </div>
+        <div class="party">
+            <h2>CLIENT</h2>
+            <p><strong>${clientName}</strong></p>
+            ${clientAddress ? `<p>${clientAddress.replace(/\n/g, '<br>')}</p>` : ''}
+            <p>Authorized Signatory: ${contactName}${contactTitle ? `, ${contactTitle}` : ''}</p>
+            <p>("Client")</p>
+        </div>
+    </div>
+
+    <div class="intro-statement">
+        Client acknowledges that Network Zoo Ltd has recommended the following cybersecurity services and has explained the purpose, benefits, and risks associated with each. Client has been given the opportunity to ask questions and seek clarification. After due consideration, Client has elected to decline the services listed below and does so voluntarily, with full understanding of the consequences.
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">1. SERVICES DECLINED</h2>
+        <p>The following recommended cybersecurity services have been declined by Client as of the date of this agreement:</p>
+        ${declinedHTML}
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">2. CLIENT ACKNOWLEDGMENTS</h2>
+        <p>Client hereby acknowledges, understands, and agrees to the following:</p>
+
+        <p><strong>2.1 Informed Decision.</strong> Client has been fully informed of the cybersecurity risks associated with not subscribing to the declined services. Network Zoo Ltd has recommended these services as part of a comprehensive security posture appropriate for Client's business environment.</p>
+
+        <p><strong>2.2 Acceptance of Risk.</strong> Client voluntarily accepts all risks, damages, losses, and consequences that may arise from the absence of the declined services, including but not limited to: ransomware attacks, malware infections, data breaches, unauthorized access, identity compromise, permanent data loss, business interruption, system downtime, ransom payments, emergency recovery costs, and regulatory or legal liability.</p>
+
+        <p><strong>2.3 No Provider Liability.</strong> Client agrees that Network Zoo Ltd shall bear no responsibility, liability, or financial obligation — whether direct, indirect, incidental, consequential, or otherwise — for any loss, damage, claim, or expense arising from or related to the security incidents, data loss events, or system failures that the declined services were designed to prevent or mitigate.</p>
+
+        <p><strong>2.4 Regulatory Compliance.</strong> Client acknowledges sole responsibility for compliance with all applicable privacy and data protection laws (including PIPEDA and BC PIPA) in connection with any data breach or security incident that may occur as a result of declining the recommended services.</p>
+
+        <p><strong>2.5 Emergency Services.</strong> Client understands that in the event of a security incident, emergency recovery and remediation services may be available from Network Zoo Ltd on a Time and Materials basis at then-current rates, and that such services cannot be guaranteed to fully restore lost data or systems.</p>
+
+        <p><strong>2.6 Right to Reconsider.</strong> Client may, at any time, elect to subscribe to any of the declined services by contacting Network Zoo Ltd. Onboarding timelines and costs may apply.</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">3. LIMITATION AND RELEASE OF LIABILITY</h2>
+
+        <div class="liability-box">
+            <h3>RELEASE OF LIABILITY</h3>
+            <p>TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, CLIENT HEREBY RELEASES, WAIVES, DISCHARGES, AND COVENANTS NOT TO SUE NETWORK ZOO LTD, ITS OFFICERS, EMPLOYEES, CONTRACTORS, AND AGENTS FROM ANY AND ALL LIABILITY, CLAIMS, DEMANDS, ACTIONS, OR CAUSES OF ACTION ARISING OUT OF OR RELATED TO ANY LOSS, DAMAGE, OR INJURY THAT MAY BE SUSTAINED AS A DIRECT OR INDIRECT RESULT OF CLIENT'S DECISION TO DECLINE THE CYBERSECURITY SERVICES IDENTIFIED IN SECTION 1 OF THIS AGREEMENT.</p>
+            <p style="margin-top: 0.75rem;">THIS RELEASE INCLUDES, WITHOUT LIMITATION, ALL CLAIMS FOR DATA LOSS, BUSINESS INTERRUPTION, RANSOMWARE RECOVERY, BREACH NOTIFICATION COSTS, REGULATORY FINES, THIRD-PARTY CLAIMS, AND ANY OTHER CONSEQUENTIAL OR INCIDENTAL DAMAGES.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">4. GENERAL PROVISIONS</h2>
+        <p><strong>4.1 Entire Agreement.</strong> This Waiver constitutes the entire agreement between the parties with respect to the subject matter hereof and supersedes all prior discussions regarding the declined services.</p>
+        <p><strong>4.2 Governing Law.</strong> This Waiver shall be governed by the laws of British Columbia, Canada.</p>
+        <p><strong>4.3 Severability.</strong> If any provision of this Waiver is found to be unenforceable, the remaining provisions shall continue in full force and effect.</p>
+        <p><strong>4.4 Amendment.</strong> Client may revoke this declination at any time in writing. This waiver applies to the period during which the declined services are not subscribed to.</p>
+    </div>
+
+    <div class="signatures">
+        <div class="sig-block">
+            <h3>SERVICE PROVIDER — Network Zoo Ltd</h3>
+            <div class="sig-line"></div>
+            <p class="sig-label">Signature</p>
+            <div class="sig-line"></div>
+            <p class="sig-label">Print Name</p>
+            <div class="sig-line"></div>
+            <p class="sig-label">Date</p>
+        </div>
+        <div class="sig-block">
+            <h3>CLIENT — ${clientName}</h3>
+            <div class="sig-line"></div>
+            <p class="sig-label">Signature of Authorized Signatory</p>
+            <div class="sig-line"></div>
+            <p class="sig-label">Print Name: ${contactName}</p>
+            <div class="sig-line"></div>
+            <p class="sig-label">Title: ${contactTitle || '________________________________'}</p>
+            <div class="sig-line"></div>
+            <p class="sig-label">Date</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>`;
+
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Cybersecurity_Waiver_${clientName.replace(/[^a-zA-Z0-9]/g, '_')}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>

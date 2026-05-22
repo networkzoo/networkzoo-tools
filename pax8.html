@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pax8 Invoice Parser & Billing Comparison</title>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
+
+        const Upload = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+        );
+
+        const Download = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+        );
+
+        const AlertCircle = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        );
+
+        const Pax8InvoiceParser = () => {
+            const [invoiceData, setInvoiceData] = useState([]);
+            const [parsedClients, setParsedClients] = useState([]);
+            const [uploadError, setUploadError] = useState('');
+            const [rawPreview, setRawPreview] = useState([]);
+
+            const handleFileUpload = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                setUploadError('');
+                
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = new Uint8Array(event.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
+                        
+                        setInvoiceData(jsonData);
+                        setRawPreview(jsonData.slice(0, 20)); // First 20 rows for preview
+                        parseInvoiceData(jsonData);
+                    } catch (err) {
+                        setUploadError(`Error reading file: ${err.message}`);
+                    }
+                };
+                reader.onerror = () => {
+                    setUploadError('Error reading file');
+                };
+                reader.readAsArrayBuffer(file);
+            };
+
+            const parseInvoiceData = (data) => {
+                const clients = [];
+                let currentClient = null;
+                let inDetailedSection = false;
+                
+                for (let i = 0; i < data.length; i++) {
+                    const row = data[i];
+                    if (!row || row.length === 0) continue;
+                    
+                    const firstCol = String(row[0] || '').trim();
+                    
+                    // Detect "INVOICE DETAILS" section start
+                    if (firstCol === 'INVOICE DETAILS' || firstCol === 'Detailed Line Items') {
+                        inDetailedSection = true;
+                        continue;
+                    }
+                    
+                    // Only parse when we're in the detailed section
+                    if (!inDetailedSection) continue;
+                    
+                    // Detect customer header: "Customer: Name"
+                    if (firstCol.startsWith('Customer:')) {
+                        // Save previous client
+                        if (currentClient && currentClient.products.length > 0) {
+                            clients.push(currentClient);
+                        }
+                        
+                        // Extract client name (everything after "Customer: ")
+                        const clientName = firstCol.replace('Customer:', '').trim();
+                        currentClient = {
+                            clientName: clientName,
+                            products: [],
+                            totalProvTax: 0,
+                            totalFedTax: 0
+                        };
+                        continue;
+                    }
+                    
+                    // Skip header rows and subtotal rows
+                    if (firstCol === 'Order PO#' || firstCol === 'Provincial Tax' || 
+                        firstCol === 'Federal Tax' || firstCol === 'Subtotal' || 
+                        firstCol === 'Amount Due') {
+                        continue;
+                    }
+                    
+                    // If we hit another major section, stop parsing this client
+                    if (firstCol === 'INVOICE SUMMARY' || firstCol.includes('Bill to:')) {
+                        inDetailedSection = false;
+                        continue;
+                    }
+                    
+                    // Parse product lines if we have a current client and sufficient columns
+                    if (currentClient && row.length >= 12) {
+                        const sku = String(row[3] || '').trim(); // Column D (index 3)
+                        const description = String(row[4] || '').trim(); // Column E (index 4)
+                        const qtyRaw = row[6]; // Column G (index 6)
+                        const unitPriceRaw = row[8]; // Column I (index 8)
+                        const provTaxRaw = row[9]; // Column J (index 9)
+                        const fedTaxRaw = row[10]; // Column K (index 10)
+                        const totalRaw = row[11]; // Column L (index 11)
+                        
+                        // Parse numeric values
+                        const parseNum = (val) => {
+                            if (typeof val === 'number') return val;
+                            if (typeof val === 'string') {
+                                const cleaned = val.replace(/[C$,\s]/g, '');
+                                const num = parseFloat(cleaned);
+                                return isNaN(num) ? 0 : num;
+                            }
+                            return 0;
+                        };
+                        
+                        const quantity = parseNum(qtyRaw);
+                        const unitPrice = parseNum(unitPriceRaw);
+                        const provTax = parseNum(provTaxRaw);
+                        const fedTax = parseNum(fedTaxRaw);
+                        const total = parseNum(totalRaw);
+                        
+                        // Only add if we have a description and meaningful data
+                        if (description && description.length > 0 && (quantity > 0 || total > 0)) {
+                            currentClient.products.push({
+                                sku,
+                                description,
+                                quantity: quantity || 1,
+                                unitPrice,
+                                provTax,
+                                fedTax,
+                                total
+                            });
+                            currentClient.totalProvTax += provTax;
+                            currentClient.totalFedTax += fedTax;
+                        }
+                    }
+                }
+                
+                // Add the last client
+                if (currentClient && currentClient.products.length > 0) {
+                    clients.push(currentClient);
+                }
+                
+                setParsedClients(clients);
+            };
+
+            const downloadCSV = () => {
+                const rows = [];
+                rows.push(['Client', 'SKU', 'Product/Description', 'Quantity', 'Unit Price', 'Prov Tax', 'Fed Tax', 'Total Tax', 'Total']);
+                
+                parsedClients.forEach(client => {
+                    client.products.forEach(product => {
+                        rows.push([
+                            client.clientName,
+                            product.sku,
+                            product.description,
+                            product.quantity,
+                            product.unitPrice.toFixed(2),
+                            product.provTax.toFixed(2),
+                            product.fedTax.toFixed(2),
+                            (product.provTax + product.fedTax).toFixed(2),
+                            product.total.toFixed(2)
+                        ]);
+                    });
+                    // Add client subtotal row
+                    rows.push([
+                        `${client.clientName} - Subtotal`,
+                        '',
+                        '',
+                        '',
+                        '',
+                        client.totalProvTax.toFixed(2),
+                        client.totalFedTax.toFixed(2),
+                        (client.totalProvTax + client.totalFedTax).toFixed(2),
+                        client.products.reduce((sum, p) => sum + p.total, 0).toFixed(2)
+                    ]);
+                });
+                
+                // Add grand total
+                rows.push(['']);
+                rows.push([
+                    'GRAND TOTAL',
+                    '',
+                    '',
+                    '',
+                    '',
+                    grandTotalProvTax.toFixed(2),
+                    grandTotalFedTax.toFixed(2),
+                    grandTotalTax.toFixed(2),
+                    grandTotal.toFixed(2)
+                ]);
+                
+                const csv = rows.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'pax8-parsed-invoice.csv';
+                a.click();
+            };
+
+            const totalsByClient = parsedClients.map(client => ({
+                clientName: client.clientName,
+                productCount: client.products.length,
+                totalAmount: client.products.reduce((sum, p) => sum + p.total, 0),
+                totalProvTax: client.totalProvTax,
+                totalFedTax: client.totalFedTax,
+                totalTax: client.totalProvTax + client.totalFedTax
+            }));
+
+            const grandTotal = totalsByClient.reduce((sum, c) => sum + c.totalAmount, 0);
+            const grandTotalProvTax = totalsByClient.reduce((sum, c) => sum + c.totalProvTax, 0);
+            const grandTotalFedTax = totalsByClient.reduce((sum, c) => sum + c.totalFedTax, 0);
+            const grandTotalTax = grandTotalProvTax + grandTotalFedTax;
+
+            return (
+                <div className="min-h-screen bg-gray-50 p-6">
+                    <div className="max-w-7xl mx-auto space-y-6">
+                        <div className="bg-white rounded-lg shadow-sm p-6">
+                            <h1 className="text-2xl font-bold text-gray-900 mb-2">Pax8 Invoice Parser</h1>
+                            <p className="text-gray-600">Upload Pax8 invoice (PDF exported to Excel) to extract client billing data</p>
+                        </div>
+
+                        <div className="bg-white rounded-lg shadow-sm p-6">
+                            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                                <Upload className="w-5 h-5" />
+                                Upload Pax8 Invoice
+                            </h2>
+                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                                <input
+                                    type="file"
+                                    accept=".xlsx,.xls"
+                                    onChange={handleFileUpload}
+                                    className="hidden"
+                                    id="file-upload"
+                                />
+                                <label htmlFor="file-upload" className="cursor-pointer">
+                                    <Upload className="w-12 h-12 mx-auto text-gray-400 mb-4" />
+                                    <p className="text-sm text-gray-600">Click to upload Excel file</p>
+                                    <p className="text-xs text-gray-500 mt-1">From Kofax Power PDF export (.xlsx or .xls)</p>
+                                </label>
+                            </div>
+                            {uploadError && (
+                                <div className="mt-4 p-4 bg-red-50 rounded-lg">
+                                    <p className="text-sm text-red-800">⚠ {uploadError}</p>
+                                </div>
+                            )}
+                            {parsedClients.length > 0 && (
+                                <div className="mt-4 p-4 bg-green-50 rounded-lg">
+                                    <p className="text-sm text-green-800">✓ Parsed {parsedClients.length} clients with {parsedClients.reduce((sum, c) => sum + c.products.length, 0)} products</p>
+                                </div>
+                            )}
+                        </div>
+
+                        {rawPreview.length > 0 && parsedClients.length === 0 && (
+                            <div className="bg-white rounded-lg shadow-sm p-6">
+                                <h2 className="text-lg font-semibold mb-4">Raw Data Preview (First 20 Rows)</h2>
+                                <p className="text-sm text-yellow-800 mb-4">If parsing didn't work, check this preview and let me know the structure.</p>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-xs font-mono">
+                                        <tbody>
+                                            {rawPreview.map((row, idx) => (
+                                                <tr key={idx} className="border-b">
+                                                    <td className="px-2 py-1 text-gray-500">{idx}</td>
+                                                    {row.map((cell, cellIdx) => (
+                                                        <td key={cellIdx} className="px-2 py-1">{String(cell || '')}</td>
+                                                    ))}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+
+                        {parsedClients.length > 0 && (
+                            <>
+                                <div className="bg-white rounded-lg shadow-sm p-6">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h2 className="text-lg font-semibold">Summary by Client</h2>
+                                        <button
+                                            onClick={downloadCSV}
+                                            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                                        >
+                                            <Download className="w-4 h-4" />
+                                            Export CSV
+                                        </button>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                                        <div className="p-4 bg-blue-50 rounded-lg">
+                                            <p className="text-sm text-gray-600">Total Clients</p>
+                                            <p className="text-2xl font-bold text-gray-900">{parsedClients.length}</p>
+                                        </div>
+                                        <div className="p-4 bg-green-50 rounded-lg">
+                                            <p className="text-sm text-gray-600">Total Products</p>
+                                            <p className="text-2xl font-bold text-gray-900">
+                                                {parsedClients.reduce((sum, c) => sum + c.products.length, 0)}
+                                            </p>
+                                        </div>
+                                        <div className="p-4 bg-yellow-50 rounded-lg">
+                                            <p className="text-sm text-gray-600">Total Tax</p>
+                                            <p className="text-2xl font-bold text-gray-900">${grandTotalTax.toFixed(2)}</p>
+                                        </div>
+                                        <div className="p-4 bg-purple-50 rounded-lg">
+                                            <p className="text-sm text-gray-600">Grand Total</p>
+                                            <p className="text-2xl font-bold text-gray-900">${grandTotal.toFixed(2)}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm">
+                                            <thead className="bg-gray-100">
+                                                <tr>
+                                                    <th className="px-4 py-2 text-left">Client</th>
+                                                    <th className="px-4 py-2 text-right">Products</th>
+                                                    <th className="px-4 py-2 text-right">Prov Tax</th>
+                                                    <th className="px-4 py-2 text-right">Fed Tax</th>
+                                                    <th className="px-4 py-2 text-right">Total Tax</th>
+                                                    <th className="px-4 py-2 text-right">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {totalsByClient.map((client, idx) => (
+                                                    <tr key={idx} className="border-b hover:bg-gray-50">
+                                                        <td className="px-4 py-2 font-medium">{client.clientName}</td>
+                                                        <td className="px-4 py-2 text-right">{client.productCount}</td>
+                                                        <td className="px-4 py-2 text-right">${client.totalProvTax.toFixed(2)}</td>
+                                                        <td className="px-4 py-2 text-right">${client.totalFedTax.toFixed(2)}</td>
+                                                        <td className="px-4 py-2 text-right">${client.totalTax.toFixed(2)}</td>
+                                                        <td className="px-4 py-2 text-right font-medium">${client.totalAmount.toFixed(2)}</td>
+                                                    </tr>
+                                                ))}
+                                                <tr className="bg-gray-100 font-bold">
+                                                    <td className="px-4 py-2">TOTAL</td>
+                                                    <td className="px-4 py-2 text-right">
+                                                        {parsedClients.reduce((sum, c) => sum + c.products.length, 0)}
+                                                    </td>
+                                                    <td className="px-4 py-2 text-right">${grandTotalProvTax.toFixed(2)}</td>
+                                                    <td className="px-4 py-2 text-right">${grandTotalFedTax.toFixed(2)}</td>
+                                                    <td className="px-4 py-2 text-right">${grandTotalTax.toFixed(2)}</td>
+                                                    <td className="px-4 py-2 text-right">${grandTotal.toFixed(2)}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white rounded-lg shadow-sm p-6">
+                                    <h2 className="text-lg font-semibold mb-4">Detailed Line Items</h2>
+                                    {parsedClients.map((client, idx) => (
+                                        <div key={idx} className="mb-6 pb-6 border-b last:border-b-0">
+                                            <h3 className="font-semibold text-gray-900 mb-3">{client.clientName}</h3>
+                                            <div className="overflow-x-auto">
+                                                <table className="w-full text-sm">
+                                                    <thead className="bg-gray-50">
+                                                        <tr>
+                                                            <th className="px-4 py-2 text-left">SKU</th>
+                                                            <th className="px-4 py-2 text-left">Product/Description</th>
+                                                            <th className="px-4 py-2 text-right">Qty</th>
+                                                            <th className="px-4 py-2 text-right">Unit Price</th>
+                                                            <th className="px-4 py-2 text-right">Prov Tax</th>
+                                                            <th className="px-4 py-2 text-right">Fed Tax</th>
+                                                            <th className="px-4 py-2 text-right">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {client.products.map((product, pIdx) => (
+                                                            <tr key={pIdx} className="border-b">
+                                                                <td className="px-4 py-2 font-mono text-xs">{product.sku}</td>
+                                                                <td className="px-4 py-2">{product.description}</td>
+                                                                <td className="px-4 py-2 text-right">{product.quantity}</td>
+                                                                <td className="px-4 py-2 text-right">${product.unitPrice.toFixed(2)}</td>
+                                                                <td className="px-4 py-2 text-right">${product.provTax.toFixed(2)}</td>
+                                                                <td className="px-4 py-2 text-right">${product.fedTax.toFixed(2)}</td>
+                                                                <td className="px-4 py-2 text-right font-medium">${product.total.toFixed(2)}</td>
+                                                            </tr>
+                                                        ))}
+                                                        <tr className="bg-gray-100 font-semibold">
+                                                            <td className="px-4 py-2" colSpan="4">Client Subtotal</td>
+                                                            <td className="px-4 py-2 text-right">${client.totalProvTax.toFixed(2)}</td>
+                                                            <td className="px-4 py-2 text-right">${client.totalFedTax.toFixed(2)}</td>
+                                                            <td className="px-4 py-2 text-right">
+                                                                ${client.products.reduce((sum, p) => sum + p.total, 0).toFixed(2)}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="bg-white rounded-lg shadow-sm p-6">
+                                    <div className="flex gap-2">
+                                        <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                        <div className="text-sm text-blue-900">
+                                            <p className="font-medium mb-1">Next Steps:</p>
+                                            <ol className="list-decimal list-inside space-y-1">
+                                                <li>Review the parsed data above for accuracy</li>
+                                                <li>Export to CSV to compare against your QuickBooks billing</li>
+                                                <li>Use this data to verify your client invoices match Pax8 charges</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Pax8InvoiceParser />);
+    </script>
+</body>
+</html>
