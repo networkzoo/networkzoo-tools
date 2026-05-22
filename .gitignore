@@ -2,3 +2,5 @@ Backups/
 SSCamExport_cam2/
 .claude/
 *.bak
+Sophos_MCP/config.json
+Sophos_MCP/.env
