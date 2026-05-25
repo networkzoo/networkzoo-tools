@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guides - Network Zoo Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1F4E78;
+            --primary-medium: #2E5C8A;
+            --primary-light: #D5E8F0;
+            --accent: #2C7BA7;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border-color: #e0e0e0;
+            --success: #2d7a4a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 100%);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        header .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 20px;
+        }
+
+        /* Main Content */
+        main {
+            margin-bottom: 60px;
+        }
+
+        .intro-section {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .intro-section p {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .intro-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Guides Grid */
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .guide-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .guide-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .guide-card-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 100%);
+            color: white;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guide-card-header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .guide-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .guide-card-header h2 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .guide-category {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .guide-card-body {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .guide-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .guide-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .guide-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .guide-link {
+            display: inline-block;
+            background: var(--primary-dark);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            text-align: center;
+            border: 2px solid var(--primary-dark);
+        }
+
+        .guide-link:hover {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        /* Coming Soon Cards */
+        .guide-card.coming-soon {
+            opacity: 0.7;
+        }
+
+        .guide-card.coming-soon .guide-link {
+            background: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .guide-card.coming-soon .guide-link:hover {
+            background: #ccc;
+            color: white;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        /* Request Guide Section */
+        .request-section {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin-top: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--primary-dark);
+        }
+
+        .request-section h2 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .request-section p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .request-btn {
+            display: inline-block;
+            background: var(--success);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .request-btn:hover {
+            background: #226339;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        footer .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        footer h3 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer li {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        footer a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .guides-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-section,
+            .request-section,
+            main {
+                padding: 25px;
+            }
+
+            .guide-card-header {
+                padding: 25px;
+            }
+
+            .guide-card-body {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="breadcrumb">Home / Resources / Guides</div>
+            <h1>Resource Guides</h1>
+            <p class="subtitle">Documentation and setup guides to help you get the most out of our services</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <section class="intro-section">
+                <p>Welcome to Network Zoo's resource guides! Here you'll find comprehensive documentation, setup instructions, and best practices for our services and solutions.</p>
+                <p>Each guide is designed to walk you through configuration, troubleshooting, and optimization to ensure you get maximum value from your tools.</p>
+            </section>
+
+            <section class="guides-grid">
+                <!-- Office 365 Setup Guide -->
+                <article class="guide-card">
+                    <div class="guide-card-header">
+                        <div class="guide-icon">📧</div>
+                        <h2>Office 365 Setup</h2>
+                        <div class="guide-category">Email & Collaboration</div>
+                    </div>
+                    <div class="guide-card-body">
+                        <p class="guide-description">Complete setup guide for new Office 365 users. Covers email configuration, OneDrive, Teams, security, and troubleshooting.</p>
+                        <div class="guide-meta">
+                            <div class="guide-meta-item">⏱️ 15-20 min read</div>
+                            <div class="guide-meta-item">📋 8 sections</div>
+                        </div>
+                        <a href="office365-setup-guide.html" class="guide-link">View Guide →</a>
+                    </div>
+                </article>
+
+                <!-- Coming Soon: Microsoft 365 Best Practices -->
+                <article class="guide-card coming-soon">
+                    <div class="guide-card-header">
+                        <div class="guide-icon">🚀</div>
+                        <h2>Office 365 Best Practices</h2>
+                        <div class="guide-category">Productivity</div>
+                    </div>
+                    <div class="guide-card-body">
+                        <p class="guide-description">Advanced tips and best practices for maximizing productivity with Office 365. Includes collaboration techniques and security hardening.</p>
+                        <div class="guide-meta">
+                            <div class="guide-meta-item">⏱️ 20-25 min read</div>
+                            <div class="guide-meta-item">📋  6 sections</div>
+                        </div>
+                        <span class="coming-soon-badge">Coming Soon</span>
+                        <button class="guide-link" disabled>Coming Soon</button>
+                    </div>
+                </article>
+
+                <!-- Coming Soon: Teams Administration -->
+                <article class="guide-card coming-soon">
+                    <div class="guide-card-header">
+                        <div class="guide-icon">👥</div>
+                        <h2>Teams Administration</h2>
+                        <div class="guide-category">Team Management</div>
+                    </div>
+                    <div class="guide-card-body">
+                        <p class="guide-description">Guide for administrators managing Microsoft Teams. Covers channel setup, guest access, policies, and governance.</p>
+                        <div class="guide-meta">
+                            <div class="guide-meta-item">⏱️ 25-30 min read</div>
+                            <div class="guide-meta-item">📋  7 sections</div>
+                        </div>
+                        <span class="coming-soon-badge">Coming Soon</span>
+                        <button class="guide-link" disabled>Coming Soon</button>
+                    </div>
+                </article>
+
+                <!-- Coming Soon: OneDrive & SharePoint -->
+                <article class="guide-card coming-soon">
+                    <div class="guide-card-header">
+                        <div class="guide-icon">☁️</div>
+                        <h2>OneDrive & SharePoint</h2>
+                        <div class="guide-category">Cloud Storage</div>
+                    </div>
+                    <div class="guide-card-body">
+                        <p class="guide-description">Setup and management guide for cloud storage. Covers file organization, sharing, backup, and version control.</p>
+                        <div class="guide-meta">
+                            <div class="guide-meta-item">⏱️ 15-20 min read</div>
+                            <div class="guide-meta-item">📋  5 sections</div>
+                        </div>
+                        <span class="coming-soon-badge">Coming Soon</span>
+                        <button class="guide-link" disabled>Coming Soon</button>
+                    </div>
+                </article>
+
+                <!-- Coming Soon: Cybersecurity Essentials -->
+                <article class="guide-card coming-soon">
+                    <div class="guide-card-header">
+                        <div class="guide-icon">🔒</div>
+                        <h2>Cybersecurity Essentials</h2>
+                        <div class="guide-category">Security</div>
+                    </div>
+                    <div class="guide-card-body">
+                        <p class="guide-description">Essential security practices for all employees. Covers password management, phishing awareness, and device security.</p>
+                        <div class="guide-meta">
+                            <div class="guide-meta-item">⏱️ 10-15 min read</div>
+                            <div class="guide-meta-item">📋  4 sections</div>
+                        </div>
+                        <span class="coming-soon-badge">Coming Soon</span>
+                        <button class="guide-link" disabled>Coming Soon</button>
+                    </div>
+                </article>
+
+                <!-- Coming Soon: VPN & Remote Access -->
+                <article class="guide-card coming-soon">
+                    <div class="guide-card-header">
+                        <div class="guide-icon">🌐</div>
+                        <h2>VPN & Remote Access</h2>
+                        <div class="guide-category">Network Security</div>
+                    </div>
+                    <div class="guide-card-body">
+                        <p class="guide-description">Guide for setting up and using VPN for secure remote access. Covers installation, troubleshooting, and best practices.</p>
+                        <div class="guide-meta">
+                            <div class="guide-meta-item">⏱️ 10-15 min read</div>
+                            <div class="guide-meta-item">📋  4 sections</div>
+                        </div>
+                        <span class="coming-soon-badge">Coming Soon</span>
+                        <button class="guide-link" disabled>Coming Soon</button>
+                    </div>
+                </article>
+            </section>
+
+            <section class="request-section">
+                <h2>Need a Different Guide?</h2>
+                <p>If you need documentation for a service or topic not listed here, we're happy to create it for you.</p>
+                <a href="mailto:support@networkzoo.ca?subject=Guide%20Request" class="request-btn">📝 Request a Guide</a>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Back to Tools</a></li>
+                    <li><a href="https://networkzoo.ca" target="_blank">Network Zoo Main Site</a></li>
+                    <li><a href="https://support.office.com" target="_blank">Microsoft Support</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Support</h3>
+                <ul>
+                    <li>📧 support@networkzoo.ca</li>
+                    <li>📞 (778) 484-9373</li>
+                    <li><a href="mailto:support@networkzoo.ca">Email Support</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="https://support.office.com" target="_blank">Office 365 Help</a></li>
+                    <li><a href="https://account.microsoft.com/security" target="_blank">Security Dashboard</a></li>
+                    <li><a href="https://networkzoo.ca/insights/" target="_blank">Blog & Insights</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 Network Zoo. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
