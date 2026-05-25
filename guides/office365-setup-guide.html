@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office 365 Setup Guide - Network Zoo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1F4E78;
+            --primary-medium: #2E5C8A;
+            --primary-light: #D5E8F0;
+            --accent: #2C7BA7;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border-color: #e0e0e0;
+            --success: #2d7a4a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 100%);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        header .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 5px;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 20px;
+        }
+
+        /* Navigation Tabs */
+        .guide-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0;
+        }
+
+        .guide-nav button {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            margin-bottom: -2px;
+        }
+
+        .guide-nav button:hover,
+        .guide-nav button.active {
+            color: var(--primary-dark);
+            border-bottom-color: var(--primary-dark);
+        }
+
+        /* Main Content */
+        main {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 60px;
+        }
+
+        .section-content {
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Accordion Sections */
+        .accordion-item {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 0;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            padding: 20px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .accordion-header:hover {
+            background: var(--bg-light);
+            border-left-color: var(--primary-dark);
+        }
+
+        .accordion-header.active {
+            background: var(--primary-light);
+            border-left-color: var(--primary-dark);
+        }
+
+        .accordion-header h3 {
+            font-size: 1.15rem;
+            color: var(--primary-dark);
+            margin: 0;
+            flex: 1;
+        }
+
+        .accordion-icon {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            transition: transform 0.3s ease;
+            width: 24px;
+            text-align: right;
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: white;
+        }
+
+        .accordion-content.active {
+            max-height: 2000px;
+        }
+
+        .accordion-body {
+            padding: 30px 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Content Styling */
+        .step-content h4 {
+            color: var(--primary-dark);
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .step-content h4:first-child {
+            margin-top: 0;
+        }
+
+        .step-list {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .step-list li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        .step-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary-dark);
+            padding: 18px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box strong {
+            color: var(--primary-dark);
+        }
+
+        /* Settings Table */
+        .settings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .settings-table th {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+        }
+
+        .settings-table td {
+            padding: 14px 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .settings-table tr:nth-child(even) {
+            background: #fafbfc;
+        }
+
+        .settings-table tr:hover {
+            background: var(--primary-light);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--primary-dark);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .sidebar-item strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary-light);
+        }
+
+        .sidebar-item a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent);
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-item a:hover {
+            opacity: 0.8;
+        }
+
+        /* Download Button */
+        .download-section {
+            background: var(--success);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .download-section h3 {
+            margin-bottom: 15px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: white;
+            color: var(--success);
+            padding: 14px 32px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            main {
+                padding: 25px;
+            }
+
+            .accordion-header {
+                padding: 15px;
+            }
+
+            .accordion-body {
+                padding: 20px 15px;
+            }
+
+            .guide-nav {
+                gap: 5px;
+            }
+
+            .guide-nav button {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+            }
+
+            .settings-table {
+                font-size: 0.9rem;
+            }
+
+            .settings-table th,
+            .settings-table td {
+                padding: 10px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            header {
+                background: var(--primary-dark);
+            }
+
+            .guide-nav {
+                display: none;
+            }
+
+            .accordion-content {
+                max-height: none !important;
+                display: block;
+            }
+
+            .accordion-header.active {
+                background: white;
+            }
+
+            main {
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="breadcrumb">Home / Resources / Guides</div>
+            <h1>Office 365 Setup Guide</h1>
+            <p class="subtitle">Get up and running with your corporate email and collaboration tools</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="guide-nav">
+            <button class="nav-btn active" data-section="getting-started">Getting Started</button>
+            <button class="nav-btn" data-section="email">Email Setup</button>
+            <button class="nav-btn" data-section="cloud">OneDrive & Cloud</button>
+            <button class="nav-btn" data-section="teams">Microsoft Teams</button>
+            <button class="nav-btn" data-section="security">Security & MFA</button>
+            <button class="nav-btn" data-section="mobile">Mobile Setup</button>
+            <button class="nav-btn" data-section="troubleshooting">Troubleshooting</button>
+        </nav>
+
+        <main>
+            <!-- Getting Started Section -->
+            <section id="getting-started" class="section-content active">
+                <div class="accordion-item">
+                    <div class="accordion-header active" onclick="toggleAccordion(this)">
+                        <h3>What You'll Need</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content active">
+                        <div class="accordion-body step-content">
+                            <ul class="step-list">
+                                <li>Your corporate email address</li>
+                                <li>A strong password (minimum 12 characters, with upper/lower case, numbers, and symbols)</li>
+                                <li>Your company-issued username</li>
+                                <li>A phone or authentication app for multi-factor authentication (MFA)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Initial Sign-In</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <ol class="step-list" style="list-style: decimal; margin-left: 20px; padding-left: 10px;">
+                                <li style="padding-left: 0;">Visit <strong>office.com</strong> in your web browser</li>
+                                <li style="padding-left: 0;">Click <strong>"Sign In"</strong> in the top right corner</li>
+                                <li style="padding-left: 0;">Enter your corporate email address</li>
+                                <li style="padding-left: 0;">Enter your password</li>
+                                <li style="padding-left: 0;">Complete any multi-factor authentication (MFA) prompts</li>
+                            </ol>
+                            <div class="highlight-box">
+                                <strong>💡 Tip:</strong> Bookmark office.com for quick access to all your Office 365 apps and services.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Email Setup Section -->
+            <section id="email" class="section-content">
+                <div class="accordion-item">
+                    <div class="accordion-header active" onclick="toggleAccordion(this)">
+                        <h3>Web-Based Email (Outlook Online)</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content active">
+                        <div class="accordion-body step-content">
+                            <ol class="step-list" style="list-style: decimal; margin-left: 20px; padding-left: 10px;">
+                                <li style="padding-left: 0;">Once signed into office.com, click <strong>"Outlook"</strong> from the app launcher (grid icon)</li>
+                                <li style="padding-left: 0;">Your inbox will load automatically</li>
+                                <li style="padding-left: 0;">Click the settings icon (⚙️) to customize your preferences</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Desktop Application Setup</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <h4>For Windows & Mac:</h4>
+                            <ol class="step-list" style="list-style: decimal; margin-left: 20px; padding-left: 10px;">
+                                <li style="padding-left: 0;">From office.com, click <strong>"Install Office"</strong> (usually top right)</li>
+                                <li style="padding-left: 0;">Download and run the Office installation tool</li>
+                                <li style="padding-left: 0;">Follow the installation wizard</li>
+                                <li style="padding-left: 0;">Launch Outlook and sign in with your corporate email</li>
+                                <li style="padding-left: 0;">Allow automatic account configuration to complete</li>
+                            </ol>
+                            <div class="highlight-box">
+                                <strong>✓ Success:</strong> You'll see your email calendar, contacts, and tasks automatically configured.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Email Signature & Settings</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <h4>Create a Professional Signature:</h4>
+                            <ul class="step-list">
+                                <li>Go to Settings → View All Outlook Settings → Mail → Compose and Reply</li>
+                                <li>Find "Signatures" and create a new signature</li>
+                                <li>Include your name, title, company, and contact info</li>
+                                <li>Set it as your default signature</li>
+                            </ul>
+                            <h4 style="margin-top: 25px;">Set Out of Office Auto-Reply:</h4>
+                            <ul class="step-list">
+                                <li>Click the settings icon (⚙️) → View All Outlook Settings</li>
+                                <li>Go to Mail → Automatic replies</li>
+                                <li>Turn on auto-replies and set your date range</li>
+                                <li>Write a helpful message directing urgent matters</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- OneDrive & Cloud Section -->
+            <section id="cloud" class="section-content">
+                <div class="accordion-item">
+                    <div class="accordion-header active" onclick="toggleAccordion(this)">
+                        <h3>OneDrive Cloud Storage Setup</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content active">
+                        <div class="accordion-body step-content">
+                            <h4>Access OneDrive:</h4>
+                            <ol class="step-list" style="list-style: decimal; margin-left: 20px; padding-left: 10px;">
+                                <li style="padding-left: 0;">From office.com, click the app launcher (grid icon)</li>
+                                <li style="padding-left: 0;">Select <strong>"OneDrive"</strong></li>
+                                <li style="padding-left: 0;">You now have 1TB of cloud storage</li>
+                            </ol>
+                            <div class="highlight-box">
+                                <strong>💾 Storage:</strong> Your OneDrive is automatically synced across all your devices for seamless access to your files from anywhere.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Enable Desktop Sync</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <h4>Sync Files Locally:</h4>
+                            <ol class="step-list" style="list-style: decimal; margin-left: 20px; padding-left: 10px;">
+                                <li style="padding-left: 0;">Download the OneDrive desktop app from Microsoft</li>
+                                <li style="padding-left: 0;">Install and sign in with your corporate email</li>
+                                <li style="padding-left: 0;">Choose a local folder for syncing (Documents folder recommended)</li>
+                                <li style="padding-left: 0;">Files will automatically sync to your computer</li>
+                            </ol>
+                            <h4 style="margin-top: 25px;">Benefits:</h4>
+                            <ul class="step-list">
+                                <li>Access files even when offline</li>
+                                <li>Automatic backup of important documents</li>
+                                <li>Share files with colleagues easily</li>
+                                <li>Version history for document recovery</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>SharePoint & Collaboration</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <p>SharePoint is your team's collaborative workspace for documents, project files, and resources.</p>
+                            <h4>Accessing Shared Sites:</h4>
+                            <ul class="step-list">
+                                <li>Your manager or team lead will send you links to team SharePoint sites</li>
+                                <li>Click the link and you'll have automatic access</li>
+                                <li>Pin frequently used sites to your OneDrive sidebar for quick access</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Microsoft Teams Section -->
+            <section id="teams" class="section-content">
+                <div class="accordion-item">
+                    <div class="accordion-header active" onclick="toggleAccordion(this)">
+                        <h3>Getting Started with Teams</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content active">
+                        <div class="accordion-body step-content">
+                            <ol class="step-list" style="list-style: decimal; margin-left: 20px; padding-left: 10px;">
+                                <li style="padding-left: 0;">From office.com, click the app launcher and select <strong>"Teams"</strong></li>
+                                <li style="padding-left: 0;">You'll automatically be added to company channels</li>
+                                <li style="padding-left: 0;">Download the Teams desktop app for better performance and notifications</li>
+                                <li style="padding-left: 0;">Sign in on your mobile device for on-the-go access</li>
+                            </ol>
+                            <div class="highlight-box">
+                                <strong>👥 Teams:</strong> Teams are like chat workspaces where your team collaborates. Your manager will add you to relevant team channels.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Customizing Your Profile</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <h4>Set Up Your Profile:</h4>
+                            <ul class="step-list">
+                                <li>Click your profile picture (top right)</li>
+                                <li>Select <strong>"Edit profile"</strong></li>
+                                <li>Add a professional photo</li>
+                                <li>Set your title and department</li>
+                                <li>Add your phone number and location</li>
+                            </ul>
+                            <h4 style="margin-top: 25px;">Status & Availability:</h4>
+                            <ul class="step-list">
+                                <li>Set your availability status (Available, Busy, Do Not Disturb, etc.)</li>
+                                <li>Add a status message (e.g., "In a meeting until 2pm")</li>
+                                <li>Your status helps teammates know the best way to reach you</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Notifications & Settings</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <h4>Customize Your Notifications:</h4>
+                            <ol class="step-list" style="list-style: decimal; margin-left: 20px; padding-left: 10px;">
+                                <li style="padding-left: 0;">Click your profile picture → Settings</li>
+                                <li style="padding-left: 0;">Go to Notifications</li>
+                                <li style="padding-left: 0;">Choose which notifications you want (mentions, chat, meetings, etc.)</li>
+                                <li style="padding-left: 0;">Set quiet hours to avoid notifications during off-hours</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security & MFA Section -->
+            <section id="security" class="section-content">
+                <div class="accordion-item">
+                    <div class="accordion-header active" onclick="toggleAccordion(this)">
+                        <h3>Enable Multi-Factor Authentication (MFA)</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content active">
+                        <div class="accordion-body step-content">
+                            <p><strong>MFA adds a critical security layer</strong> to your account. It requires a second verification step when logging in.</p>
+                            <h4>Set Up MFA:</h4>
+                            <ol class="step-list" style="list-style: decimal; margin-left: 20px; padding-left: 10px;">
+                                <li style="padding-left: 0;">Visit <strong>myapps.microsoft.com</strong></li>
+                                <li style="padding-left: 0;">Click your profile icon → View Account</li>
+                                <li style="padding-left: 0;">Select <strong>"Security info"</strong></li>
+                                <li style="padding-left: 0;">Click <strong>"+ Add sign-in method"</strong></li>
+                                <li style="padding-left: 0;">Choose your preferred method (phone, email, or authenticator app)</li>
+                            </ol>
+                            <div class="highlight-box">
+                                <strong>🔒 Recommended:</strong> Use the Microsoft Authenticator app for the most secure method. Download it from your app store and follow the prompts.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Password Management</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <h4>Best Practices:</h4>
+                            <ul class="step-list">
+                                <li>Never share your password with anyone, not even IT staff</li>
+                                <li>Use a password manager (like Windows Credential Manager or 1Password)</li>
+                                <li>Update your password regularly (every 90 days recommended)</li>
+                                <li>Include uppercase, lowercase, numbers, and symbols (minimum 12 characters)</li>
+                            </ul>
+                            <h4 style="margin-top: 25px;">Change Your Password:</h4>
+                            <ol class="step-list" style="list-style: decimal; margin-left: 20px; padding-left: 10px;">
+                                <li style="padding-left: 0;">Go to <strong>myapps.microsoft.com</strong></li>
+                                <li style="padding-left: 0;">Click your profile → Change Password</li>
+                                <li style="padding-left: 0;">Enter your current password and new password</li>
+                                <li style="padding-left: 0;">Click Save</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Security Best Practices</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <ul class="step-list">
+                                <li>Always log out when using a shared computer</li>
+                                <li>Be cautious of phishing emails requesting account information</li>
+                                <li>Don't click links or download attachments from unknown senders</li>
+                                <li>Keep your devices and applications updated</li>
+                                <li>Use a VPN when connecting to public WiFi</li>
+                                <li>Never store passwords in plain text documents</li>
+                                <li>Report suspicious activity to IT immediately</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mobile Setup Section -->
+            <section id="mobile" class="section-content">
+                <div class="accordion-item">
+                    <div class="accordion-header active" onclick="toggleAccordion(this)">
+                        <h3>Installing Mobile Apps</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content active">
+                        <div class="accordion-body step-content">
+                            <p>Access Office 365 on your smartphone or tablet by downloading these apps:</p>
+                            <h4>Essential Apps:</h4>
+                            <ul class="step-list">
+                                <li><strong>Microsoft Outlook:</strong> Email, calendar, and contacts (iOS & Android)</li>
+                                <li><strong>Microsoft Teams:</strong> Chat, video calls, and collaboration (iOS & Android)</li>
+                                <li><strong>OneDrive:</strong> Cloud storage and file access (iOS & Android)</li>
+                                <li><strong>Microsoft Word, Excel, PowerPoint:</strong> View and edit documents on the go</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Signing In on Mobile</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <ol class="step-list" style="list-style: decimal; margin-left: 20px; padding-left: 10px;">
+                                <li style="padding-left: 0;">Open the app (e.g., Outlook)</li>
+                                <li style="padding-left: 0;">Tap <strong>"Add Account"</strong> or <strong>"Sign In"</strong></li>
+                                <li style="padding-left: 0;">Enter your corporate email address</li>
+                                <li style="padding-left: 0;">Enter your password</li>
+                                <li style="padding-left: 0;">Complete MFA verification if prompted</li>
+                                <li style="padding-left: 0;">Allow the app to access your account permissions</li>
+                            </ol>
+                            <div class="highlight-box">
+                                <strong>📱 Tip:</strong> Enable biometric login (fingerprint or face recognition) in app settings for quick, secure access.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Mobile Security</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <ul class="step-list">
+                                <li>Always use a strong lock screen (PIN, pattern, or biometric)</li>
+                                <li>Keep your phone's OS and apps updated</li>
+                                <li>Don't download Office 365 apps from third-party app stores</li>
+                                <li>Log out of Office 365 apps on lost or stolen devices immediately</li>
+                                <li>Consider enabling app-level password protection</li>
+                                <li>Don't leave sensitive emails visible on your lock screen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Troubleshooting Section -->
+            <section id="troubleshooting" class="section-content">
+                <div class="accordion-item">
+                    <div class="accordion-header active" onclick="toggleAccordion(this)">
+                        <h3>Can't Sign In?</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content active">
+                        <div class="accordion-body step-content">
+                            <ul class="step-list">
+                                <li>Verify you're using your <strong>corporate email address</strong> (not personal email)</li>
+                                <li>Check CAPS LOCK is off on your keyboard</li>
+                                <li>Clear your browser cache and cookies, then try again</li>
+                                <li>Try a different browser (Edge, Chrome, Safari)</li>
+                                <li>Disable browser extensions that might interfere</li>
+                                <li>Check your internet connection is stable</li>
+                                <li>If you've forgotten your password, click "Can't access your account?" on the sign-in page</li>
+                            </ul>
+                            <div class="highlight-box">
+                                <strong>Still stuck?</strong> Contact IT Support – they can help reset your account or resolve authentication issues.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Email Not Syncing?</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <ul class="step-list">
+                                <li>Check your internet connection is active and stable</li>
+                                <li>Restart the Outlook app or close and reopen your browser</li>
+                                <li>Restart your computer (this fixes most sync issues)</li>
+                                <li>Check that you haven't hit your mailbox storage quota (50GB limit)</li>
+                                <li>Verify you're signed in with the correct account</li>
+                                <li>Try accessing Outlook on the web (outlook.office.com) first</li>
+                                <li>If using Outlook desktop, check Tools → Account Settings</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>MFA Issues?</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <h4>Can't Get a Verification Code?</h4>
+                            <ul class="step-list">
+                                <li>Ensure your phone has a strong signal or WiFi connection</li>
+                                <li>Check that the Microsoft Authenticator app is updated</li>
+                                <li>Restart the Authenticator app</li>
+                                <li>Verify you have the correct phone associated with your account</li>
+                                <li>Check your phone's date and time settings are correct (affects code generation)</li>
+                            </ul>
+                            <h4 style="margin-top: 25px;">Account Locked Out?</h4>
+                            <p>If you've entered the wrong verification code too many times, your account may be temporarily locked for security. Contact IT Support to help regain access.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h3>Teams Performance Issues?</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body step-content">
+                            <ul class="step-list">
+                                <li>Close other applications consuming bandwidth</li>
+                                <li>Move closer to your WiFi router</li>
+                                <li>Switch from WiFi to a wired connection if possible</li>
+                                <li>Disable video when bandwidth is limited</li>
+                                <li>Restart the Teams application</li>
+                                <li>Check Microsoft Teams status page for service incidents</li>
+                                <li>Clear the Teams cache: Exit Teams → Delete %appdata%\Microsoft\Teams</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <aside class="sidebar">
+            <h3>Quick Resources</h3>
+            <div class="sidebar-item">
+                <strong>📧 Microsoft Support</strong>
+                <a href="https://support.office.com" target="_blank">support.office.com</a>
+            </div>
+            <div class="sidebar-item">
+                <strong>🔒 Security & Privacy</strong>
+                <a href="https://account.microsoft.com/security" target="_blank">Microsoft Security Dashboard</a>
+            </div>
+            <div class="sidebar-item">
+                <strong>💬 Get Help</strong>
+                Contact IT Support for immediate assistance with account issues
+            </div>
+            <div class="sidebar-item">
+                <strong>📱 Download Apps</strong>
+                Available on iOS and Android app stores
+            </div>
+        </aside>
+
+        <div class="download-section">
+            <h3>Need a Reference Copy?</h3>
+            <p style="margin-bottom: 20px;">Download the complete setup guide as a Word document for offline reference or printing.</p>
+            <a href="Office365_Setup_Guide.docx" class="download-btn" download>
+                ⬇️ Download PDF Version
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Network Zoo. All rights reserved.</p>
+            <p>For technical support, contact our IT team at (778) 484-9373 or support@networkzoo.ca</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab Navigation
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons and sections
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.section-content').forEach(section => section.classList.remove('active'));
+
+                // Add active class to clicked button and corresponding section
+                this.classList.add('active');
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+
+                // Reset accordion states when changing sections
+                document.querySelectorAll('.accordion-header').forEach(header => {
+                    header.classList.remove('active');
+                    header.nextElementSibling.classList.remove('active');
+                });
+            });
+        });
+
+        // Accordion Toggle
+        function toggleAccordion(header) {
+            const isActive = header.classList.contains('active');
+            const content = header.nextElementSibling;
+
+            // Close all other accordions in the current section
+            const section = header.closest('.section-content');
+            if (section) {
+                section.querySelectorAll('.accordion-header').forEach(h => {
+                    h.classList.remove('active');
+                    h.nextElementSibling.classList.remove('active');
+                });
+            }
+
+            // Open clicked accordion
+            if (!isActive) {
+                header.classList.add('active');
+                content.classList.add('active');
+            }
+        }
+
+        // Close accordion when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.accordion-item')) {
+                // Optional: uncomment to auto-close on outside click
+                // document.querySelectorAll('.accordion-header').forEach(h => {
+                //     h.classList.remove('active');
+                //     h.nextElementSibling.classList.remove('active');
+                // });
+            }
+        });
+    </script>
+</body>
+</html>
