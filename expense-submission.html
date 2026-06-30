@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Submission - Network Zoo Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1F4E78;
+            --primary-medium: #2E5C8A;
+            --primary-light: #D5E8F0;
+            --accent: #2C7BA7;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border-color: #e0e0e0;
+            --success: #2d7a4a;
+            --danger: #c53030;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 100%);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        header .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 20px;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        main {
+            margin-bottom: 60px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
+            font-weight: 600;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        label .required {
+            color: var(--danger);
+            margin-left: 3px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="number"],
+        textarea,
+        select {
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(44, 123, 167, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            border: 2px dashed var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--accent);
+            background: rgba(44, 123, 167, 0.05);
+            color: var(--accent);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-list {
+            margin-top: 15px;
+            list-style: none;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: var(--bg-light);
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .file-item-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .file-remove {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .file-remove:hover {
+            opacity: 0.7;
+        }
+
+        /* Vendor Selection */
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .vendor-option {
+            position: relative;
+        }
+
+        .vendor-option input {
+            display: none;
+        }
+
+        .vendor-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-align: center;
+            min-height: 50px;
+        }
+
+        .vendor-option input:checked + .vendor-label {
+            border-color: var(--accent);
+            background: rgba(44, 123, 167, 0.1);
+            color: var(--accent);
+        }
+
+        .vendor-label:hover {
+            border-color: var(--accent);
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            background: #226339;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-reset {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-reset:hover {
+            background: white;
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #d5f4e6;
+            color: #229954;
+            border-left: 4px solid #229954;
+        }
+
+        .alert-error {
+            background: #fed7d7;
+            color: #c53030;
+            border-left: 4px solid #c53030;
+        }
+
+        .alert-info {
+            background: #bee3f8;
+            color: #2c5282;
+            border-left: 4px solid #2c5282;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid var(--bg-light);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .disabled-notice {
+            padding: 15px;
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            color: #7d6608;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .vendor-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="breadcrumb"><a href="index.html">Home</a> / Expense Submission</div>
+            <h1>Submit Expense</h1>
+            <p class="subtitle">Submit personal credit card expenses for company reimbursement</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <div class="form-container">
+                <div id="successAlert" class="alert alert-success"></div>
+                <div id="errorAlert" class="alert alert-error"></div>
+                <div id="infoAlert" class="alert alert-info"></div>
+
+                <form id="expenseForm">
+                    <!-- Expense Details Section -->
+                    <div class="form-section">
+                        <h2 class="section-title">Expense Details</h2>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expenseDate">Date <span class="required">*</span></label>
+                                <input type="date" id="expenseDate" name="expenseDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="expenseAmount">Amount <span class="required">*</span></label>
+                                <input type="number" id="expenseAmount" name="expenseAmount" step="0.01" min="0" required placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label>Vendor <span class="required">*</span></label>
+                                <div id="vendorContainer" class="vendor-grid">
+                                    <p style="text-align: center; padding: 20px; color: #999;">Loading vendors...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="description">Description <span class="required">*</span></label>
+                                <textarea id="description" name="description" required placeholder="Provide details about the expense (e.g., business purpose, attendees for meals, trip details)"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Receipt Section -->
+                    <div class="form-section">
+                        <h2 class="section-title">Receipt</h2>
+                        <div class="form-group">
+                            <label>Receipt Image/PDF (Optional)</label>
+                            <div class="file-upload-wrapper">
+                                <label for="receiptFile" class="file-upload-label">
+                                    <span>📸 Click to upload or drag and drop</span>
+                                </label>
+                                <input type="file" id="receiptFile" name="receiptFile" accept="image/*,.pdf">
+                            </div>
+                            <ul class="file-list" id="fileList"></ul>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 10px;">
+                            📝 Receipts will be attached to your expense in QuickBooks Online.
+                        </p>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="reset" class="btn-reset">Clear Form</button>
+                        <button type="submit" class="btn-submit" id="submitBtn">Submit Expense</button>
+                    </div>
+                </form>
+
+                <div class="loading" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Submitting expense...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>Network Zoo Ltd - Expense Management</p>
+    </footer>
+
+    <script>
+        const form = document.getElementById('expenseForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const successAlert = document.getElementById('successAlert');
+        const errorAlert = document.getElementById('errorAlert');
+        const infoAlert = document.getElementById('infoAlert');
+        const receiptFile = document.getElementById('receiptFile');
+        const fileList = document.getElementById('fileList');
+        const vendorContainer = document.getElementById('vendorContainer');
+
+        // API base URL - adjust based on your deployment
+        const API_BASE = 'http://win-k2p3qor5ri6.netbird.cloud:8082';
+
+        // Set today as default date
+        document.getElementById('expenseDate').valueAsDate = new Date();
+
+        // Load vendors on page load
+        loadVendors();
+
+        async function loadVendors() {
+            try {
+                const response = await fetch(`${API_BASE}/api/expense-upload/vendors`);
+                if (!response.ok) throw new Error('Failed to load vendors');
+
+                const data = await response.json();
+                const vendors = data.vendors || [];
+
+                if (vendors.length === 0) {
+                    vendorContainer.innerHTML = `
+                        <div class="disabled-notice">
+                            ⚠️ No expense vendors configured yet. Please contact your administrator.
+                        </div>
+                    `;
+                    submitBtn.disabled = true;
+                    return;
+                }
+
+                vendorContainer.innerHTML = vendors.map(v => `
+                    <div class="vendor-option">
+                        <input type="radio" id="vendor-${v.key}" name="vendor" value="${v.key}" required>
+                        <label for="vendor-${v.key}" class="vendor-label">${v.label}</label>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading vendors:', error);
+                vendorContainer.innerHTML = `
+                    <div class="alert alert-error" style="grid-column: 1/-1;">
+                        Failed to load vendors: ${error.message}
+                    </div>
+                `;
+                submitBtn.disabled = true;
+            }
+        }
+
+        // File upload handling
+        receiptFile.addEventListener('change', (e) => {
+            updateFileList();
+        });
+
+        // Drag and drop
+        const fileUploadLabel = document.querySelector('.file-upload-label');
+        fileUploadLabel.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadLabel.style.borderColor = 'var(--accent)';
+            fileUploadLabel.style.background = 'rgba(44, 123, 167, 0.05)';
+        });
+
+        fileUploadLabel.addEventListener('dragleave', () => {
+            fileUploadLabel.style.borderColor = '';
+            fileUploadLabel.style.background = '';
+        });
+
+        fileUploadLabel.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadLabel.style.borderColor = '';
+            fileUploadLabel.style.background = '';
+
+            if (e.dataTransfer.files.length) {
+                receiptFile.files = e.dataTransfer.files;
+                updateFileList();
+            }
+        });
+
+        function updateFileList() {
+            fileList.innerHTML = '';
+            if (receiptFile.files.length > 0) {
+                for (let file of receiptFile.files) {
+                    const item = document.createElement('li');
+                    item.className = 'file-item';
+                    item.innerHTML = `
+                        <div class="file-item-name">
+                            <span>📄</span>
+                            <span>${file.name}</span>
+                        </div>
+                        <button type="button" class="file-remove" onclick="clearFile(event)">×</button>
+                    `;
+                    fileList.appendChild(item);
+                }
+            }
+        }
+
+        function clearFile(event) {
+            event.preventDefault();
+            receiptFile.value = '';
+            updateFileList();
+        }
+
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Reset alerts
+            successAlert.classList.remove('show');
+            errorAlert.classList.remove('show');
+            infoAlert.classList.remove('show');
+
+            // Collect form data
+            const vendorKey = document.querySelector('input[name="vendor"]:checked').value;
+            const formData = new FormData();
+            formData.append('vendor_key', vendorKey);
+            formData.append('txn_date', document.getElementById('expenseDate').value);
+            formData.append('amount', parseFloat(document.getElementById('expenseAmount').value));
+            formData.append('description', document.getElementById('description').value);
+
+            // Add file as PDF if present
+            if (receiptFile.files.length > 0) {
+                const file = receiptFile.files[0];
+                const reader = new FileReader();
+                reader.onload = async (event) => {
+                    const base64 = event.target.result.split(',')[1];
+                    formData.append('pdf_b64', base64);
+                    formData.append('pdf_name', file.name);
+                    await submitExpense(formData);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                await submitExpense(formData);
+            }
+        });
+
+        async function submitExpense(formData) {
+            submitBtn.disabled = true;
+            loadingIndicator.classList.add('show');
+
+            try {
+                // Convert FormData to JSON for the API
+                const data = {
+                    vendor_key: formData.get('vendor_key'),
+                    txn_date: formData.get('txn_date'),
+                    amount: parseFloat(formData.get('amount')),
+                    description: formData.get('description'),
+                    tax_inclusive: false
+                };
+
+                if (formData.get('pdf_b64')) {
+                    data.pdf_b64 = formData.get('pdf_b64');
+                    data.pdf_name = formData.get('pdf_name');
+                }
+
+                // Generate doc_number from date and amount
+                const now = new Date();
+                const dateStr = now.toISOString().split('T')[0].replace(/-/g, '');
+                const amountStr = Math.round(parseFloat(formData.get('amount')) * 100).toString().padStart(8, '0');
+                data.doc_number = `EXP-${dateStr}-${amountStr}`.substring(0, 21);
+
+                const response = await fetch(`${API_BASE}/api/expense-upload/submit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showSuccess(`✅ Expense submitted successfully!<br>Purchase ID: ${result.purchase_id}<br><a href="${result.qbo_url}" target="_blank" style="color: #229954; text-decoration: underline;">View in QuickBooks</a>`);
+                    form.reset();
+                    document.getElementById('expenseDate').valueAsDate = new Date();
+                    updateFileList();
+                } else {
+                    showError(result.detail || 'Failed to submit expense. Please try again.');
+                }
+            } catch (error) {
+                showError('Error submitting expense: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                loadingIndicator.classList.remove('show');
+            }
+        }
+
+        function showSuccess(message) {
+            successAlert.innerHTML = message;
+            successAlert.classList.add('show');
+            setTimeout(() => successAlert.classList.remove('show'), 7000);
+        }
+
+        function showError(message) {
+            errorAlert.textContent = message;
+            errorAlert.classList.add('show');
+            setTimeout(() => errorAlert.classList.remove('show'), 7000);
+        }
+
+        function showInfo(message) {
+            infoAlert.textContent = message;
+            infoAlert.classList.add('show');
+        }
+    </script>
+</body>
+</html>
