@@ -520,16 +520,34 @@
                 const lines = csvInput.split('\n').map(line => line.trim()).filter(line => line);
                 parsedTransactions = [];
 
-                for (let i = 1; i < lines.length; i++) { // Skip header
-                    const parts = lines[i].split('\t');
-                    if (parts.length < 7) continue;
+                // Detect format from first line:
+                // Tab-delimited 7+ cols  → old bank export (has header row)
+                // Comma-delimited 6 cols → TD CSV: post_date,txn_date,card,merchant,category,amount
+                const firstParts = lines[0].split('\t');
+                const isTsv = firstParts.length >= 7;
+                const startRow = isTsv ? 1 : 0; // TSV has header; CSV does not
 
-                    const date = parts[0].trim();
-                    const description = parts[3].trim();
-                    const category = parts[4].trim();
-                    const debit = parseFloat(parts[5].trim() || 0);
-                    const credit = parseFloat(parts[6].trim() || 0);
-                    const amount = debit > 0 ? debit : credit;
+                for (let i = startRow; i < lines.length; i++) {
+                    let date, description, category, amount;
+
+                    if (isTsv) {
+                        const parts = lines[i].split('\t');
+                        if (parts.length < 7) continue;
+                        date        = parts[0].trim();
+                        description = parts[3].trim();
+                        category    = parts[4].trim();
+                        const debit  = parseFloat(parts[5].trim() || 0);
+                        const credit = parseFloat(parts[6].trim() || 0);
+                        amount = debit > 0 ? debit : credit;
+                    } else {
+                        // post_date,txn_date,card_last4,merchant,category,amount
+                        const parts = lines[i].split(',');
+                        if (parts.length < 6) continue;
+                        date        = parts[0].trim();
+                        description = parts[3].trim();
+                        category    = parts[4].trim();
+                        amount      = parseFloat(parts[5].trim() || 0);
+                    }
 
                     // Skip if amount is 0 or credit entries (payments)
                     if (amount <= 0 || category.toLowerCase() === 'payment/credit') continue;
