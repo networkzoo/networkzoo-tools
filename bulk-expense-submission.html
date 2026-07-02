@@ -433,7 +433,7 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Description</th>
-                                <th>Category</th>
+                                <th>Vendor</th>
                                 <th>Amount</th>
                                 <th>Action</th>
                             </tr>
@@ -494,17 +494,31 @@
     <script>
         const API_BASE = 'http://win-k2p3qor5ri6.netbird.cloud:8082';
 
-        // Category to vendor mapping
-        const CATEGORY_MAP = {
-            'dining': 'personal_meals',
-            'entertainment': 'personal_meals',
-            'fee/interest charge': 'personal_fees',
-            'gas/automotive': 'personal_travel',
-            'healthcare': 'personal_healthcare',
-            'internet': 'personal_internet',
-            'merchandise': 'personal_office',
-            'other': 'personal_other',
-            'other services': 'personal_services',
+        // Vendor name → key mapping (from config.json expense_vendors)
+        const VENDOR_NAME_MAP = {
+            'flo services': 'flo_services',
+            'shell': 'shell',
+            'tim hortons': 'tim_hortons',
+            'pick-n-pull': 'pick_n_pull',
+            'lululemon': 'lululemon',
+            'dr. darcy march': 'dr_march',
+            'boston pizza': 'boston_pizza',
+            'andre\'s electronic': 'andres_electronics',
+            'value village': 'value_village',
+            'capri center': 'capri_center',
+            'quad lock': 'quad_lock',
+            'italian sandwich': 'italian_sandwich',
+            'home run sports': 'home_run_sports',
+            'bamboo chopsticks': 'bamboo_chopsticks',
+            'amazon': 'amazon',
+            'on the run': 'on_the_run_ev',
+            'electrify': 'on_the_run_ev',
+            'bitwarden': 'bitwarden',
+            'cantina del centro': 'cantina_del_centro',
+            'claude': 'claude_ai',
+            'woodfire bakery': 'woodfire_bakery',
+            'train station': 'the_train_station',
+            'costco': 'costco',
         };
 
         let parsedTransactions = [];
@@ -520,7 +534,7 @@
                 const lines = csvInput.split('\n').map(line => line.trim()).filter(line => line);
                 parsedTransactions = [];
 
-                for (let i = 1; i < lines.length; i++) { // Skip header
+                for (let i = 1; i < lines.length; i++) {
                     const parts = lines[i].split('\t');
                     if (parts.length < 7) continue;
 
@@ -531,26 +545,27 @@
                     const credit = parseFloat(parts[6].trim() || 0);
                     const amount = debit > 0 ? debit : credit;
 
-                    // Skip if amount is 0 or credit entries (payments)
                     if (amount <= 0 || category.toLowerCase() === 'payment/credit') continue;
-
-                    // Skip blank categories
                     if (!category || category === '(Blanks)') continue;
 
-                    const vendorKey = CATEGORY_MAP[category.toLowerCase()] || 'personal_other';
+                    // Map vendor name to key
+                    const vendorKey = mapVendorNameToKey(description);
+                    if (!vendorKey) {
+                        console.warn(`Could not map vendor: ${description}`);
+                        continue;
+                    }
 
                     parsedTransactions.push({
                         date,
                         description,
-                        category,
-                        amount,
                         vendorKey,
+                        amount,
                         status: 'pending'
                     });
                 }
 
                 if (parsedTransactions.length === 0) {
-                    showAlert('importAlert', 'No valid transactions found. Check the format.', 'error');
+                    showAlert('importAlert', 'No valid transactions found or vendors could not be matched.', 'error');
                     return;
                 }
 
@@ -561,24 +576,25 @@
             }
         }
 
+        function mapVendorNameToKey(vendorName) {
+            const nameLower = vendorName.toLowerCase().trim();
+
+            for (const [pattern, key] of Object.entries(VENDOR_NAME_MAP)) {
+                if (nameLower.includes(pattern)) {
+                    return key;
+                }
+            }
+
+            return null;
+        }
+
         function showPreview() {
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = parsedTransactions.map((tx, i) => `
                 <tr>
                     <td class="cell-date">${tx.date}</td>
                     <td>${tx.description}</td>
-                    <td>
-                        <select onchange="updateTransaction(${i}, 'vendorKey', this.value)">
-                            <option value="personal_meals" ${tx.vendorKey === 'personal_meals' ? 'selected' : ''}>Meals</option>
-                            <option value="personal_travel" ${tx.vendorKey === 'personal_travel' ? 'selected' : ''}>Travel</option>
-                            <option value="personal_fees" ${tx.vendorKey === 'personal_fees' ? 'selected' : ''}>Fees</option>
-                            <option value="personal_healthcare" ${tx.vendorKey === 'personal_healthcare' ? 'selected' : ''}>Healthcare</option>
-                            <option value="personal_internet" ${tx.vendorKey === 'personal_internet' ? 'selected' : ''}>Internet</option>
-                            <option value="personal_office" ${tx.vendorKey === 'personal_office' ? 'selected' : ''}>Office</option>
-                            <option value="personal_services" ${tx.vendorKey === 'personal_services' ? 'selected' : ''}>Services</option>
-                            <option value="personal_other" ${tx.vendorKey === 'personal_other' ? 'selected' : ''}>Other</option>
-                        </select>
-                    </td>
+                    <td>${tx.vendorKey}</td>
                     <td class="cell-amount">$${tx.amount.toFixed(2)}</td>
                     <td>
                         <button class="btn-delete btn-sm" onclick="deleteTransaction(${i})">Delete</button>
@@ -589,11 +605,6 @@
             updateStats();
             document.getElementById('previewSection').style.display = 'block';
             window.scrollTo(0, document.getElementById('previewSection').offsetTop);
-        }
-
-        function updateTransaction(i, field, value) {
-            parsedTransactions[i][field] = value;
-            updateStats();
         }
 
         function deleteTransaction(i) {
@@ -659,7 +670,7 @@
                             success: true,
                             description: tx.description,
                             amount: tx.amount,
-                            purchaseId: data.purchase_id,
+                            entryId: data.entry_id,
                             qboUrl: data.qbo_url
                         });
                         successCount++;
