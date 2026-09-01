@@ -1,0 +1,14 @@
+{
+  "name": "sophos-tracker-api",
+  "version": "1.0.0",
+  "description": "Backend API for the Sophos Usage Tracker (Azure Functions v4 + Table Storage)",
+  "main": "src/functions/*.js",
+  "scripts": {
+    "start": "func start",
+    "prestart": "npm install"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.5.1",
+    "@azure/data-tables": "^13.2.2"
+  }
+}
