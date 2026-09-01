@@ -22,7 +22,60 @@
 <script type="text/babel">
 const { useState, useMemo, useEffect } = React;
 
-/* ── IndexedDB ──────────────────────────────────────────────────────────── */
+/* ── Server API (Azure Functions + Table Storage) ──────────────────────────
+   All shared/persistent data now lives server-side so it's visible across
+   browsers and survives cache resets. Endpoints:
+     GET/PUT  /api/config/{id}      — clientSkuConfig, serialConfig, skuCatalog, centralCatalog
+     GET      /api/history          — { monthLabel: snapshot, ... } for all saved months
+     PUT      /api/history/{label}  — upsert one month
+     DELETE   /api/history/{label}  — remove one month
+     POST     /api/history/bulk     — upsert many months in one call
+   ────────────────────────────────────────────────────────────────────────── */
+const API_BASE = '/api';
+
+const apiGetConfig = async (id) => {
+    const res = await fetch(`${API_BASE}/config/${encodeURIComponent(id)}`);
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`Failed to load ${id}: ${res.status}`);
+    return res.json();
+};
+const apiPutConfig = async (id, data) => {
+    const res = await fetch(`${API_BASE}/config/${encodeURIComponent(id)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error(`Failed to save ${id}: ${res.status}`);
+    return res.json();
+};
+const apiGetHistory = async () => {
+    const res = await fetch(`${API_BASE}/history`);
+    if (!res.ok) throw new Error(`Failed to load history: ${res.status}`);
+    return res.json();
+};
+const apiPutHistory = async (monthLabel, data) => {
+    const res = await fetch(`${API_BASE}/history/${encodeURIComponent(monthLabel)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error(`Failed to save ${monthLabel}: ${res.status}`);
+    return res.json();
+};
+const apiPutHistoryBulk = async (obj) => {
+    const res = await fetch(`${API_BASE}/history/bulk`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(obj),
+    });
+    if (!res.ok) throw new Error(`Bulk history save failed: ${res.status}`);
+    return res.json();
+};
+
+/* ── Legacy IndexedDB (read-only, migration source only) ───────────────────
+   Older versions of this tool stored everything per-browser in IndexedDB.
+   These helpers are kept ONLY so the "Migrate local data to server" button
+   can read what's already sitting in this browser and push it to the API. */
 const DB_NAME = 'SophosTrackerDB';
 const DB_VERSION = 1;
 const STORE_HIST = 'historicalData';
@@ -49,10 +102,7 @@ const dbOp = async (store, mode, fn) => {
         r.onerror   = () => rej(r.error);
     });
 };
-const dbPut = (store, data) => dbOp(store, 'readwrite', s => s.put(data));
-const dbGet = (store, key)  => dbOp(store, 'readonly',  s => s.get(key));
-const dbAll = (store)       => dbOp(store, 'readonly',  s => s.getAll());
-const dbDel = (store, key)  => dbOp(store, 'readwrite', s => s.delete(key));
+const dbAll = (store) => dbOp(store, 'readonly', s => s.getAll());
 
 /* ── Utilities ──────────────────────────────────────────────────────────── */
 const parseMonthLabel = (label) => {
@@ -123,6 +173,47 @@ const parseCSV = (text) => {
     return { data };
 };
 
+/* ── SKU Catalog CSV Parser (two columns: SKU, Description) ───────────────── */
+const parseSkuCatalogCSV = (text) => {
+    const rows = text.split('\n').map(r => r.trim()).filter(Boolean);
+    if (rows.length < 2) return { error: 'CSV must have at least a header and one data row.' };
+
+    const delim = rows[0].includes('\t') ? '\t' : ',';
+    const parseRow = (row) => {
+        if (delim === '\t') return row.split('\t').map(c => c.trim());
+        const out = []; let cur = '', inQ = false;
+        for (const ch of row) {
+            if (ch === '"') { inQ = !inQ; }
+            else if (ch === ',' && !inQ) { out.push(cur.trim()); cur = ''; }
+            else cur += ch;
+        }
+        out.push(cur.trim());
+        return out;
+    };
+
+    const headers = parseRow(rows[0]);
+    const find = (...names) => {
+        for (const n of names) {
+            const i = headers.findIndex(h => h.toLowerCase() === n.toLowerCase());
+            if (i !== -1) return i;
+        }
+        return -1;
+    };
+    const si = find('Sku', 'SKU', 'Product SKU');
+    const di = find('Description', 'Product Description', 'Item Description');
+    if (si === -1 || di === -1)
+        return { error: `Missing required columns (need SKU and Description). Found: ${headers.join(', ')}` };
+
+    const data = [];
+    for (let i = 1; i < rows.length; i++) {
+        const cols = parseRow(rows[i]);
+        const sku = cols[si] || '';
+        const description = cols[di] || '';
+        if (sku && description) data.push({ sku, description });
+    }
+    return { data };
+};
+
 /* ── Icons ──────────────────────────────────────────────────────────────── */
 const Ico = ({ d, className }) => (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -189,68 +280,130 @@ const SophosUsageTracker = () => {
     const [markupPct,       setMarkupPct]       = useState(40);
     const [saveStatus,      setSaveStatus]      = useState('');
     const [centralCatalog,  setCentralCatalog]  = useState(null); // { generatedAt, productNames, tenants }
+    const [skuCatalog,      setSkuCatalog]      = useState([]); // [{ sku, description }]
+    const [newSkuEntry,     setNewSkuEntry]     = useState({ sku: '', description: '' });
+    const [skuCatalogExpanded, setSkuCatalogExpanded] = useState(true);
+    const [loadStatus,      setLoadStatus]      = useState('loading'); // 'loading' | 'ready' | 'error'
+    const [syncError,       setSyncError]       = useState('');
+    const [migrationInfo,   setMigrationInfo]   = useState(null); // set if legacy local data found
+    const [migrating,       setMigrating]       = useState(false);
+    const skipNextConfigSave = React.useRef(true);
+    const skipNextSerialSave = React.useRef(true);
+    const skipNextSkuSave    = React.useRef(true);
 
-    /* ── Load from IndexedDB on mount ──────────────────────────────────── */
+    /* ── Load from server API on mount ───────────────────────────────────
+       Also checks this browser's legacy IndexedDB store (from the pre-backend
+       version of this tool) and, if it holds data the server doesn't have
+       yet, surfaces a one-time "Migrate local data to server" prompt rather
+       than silently overwriting or discarding it. */
     useEffect(() => {
         (async () => {
-            // Historical snapshots
-            const all = await dbAll(STORE_HIST);
-            if (all && all.length > 0) {
-                const obj = {};
-                all.forEach(item => { obj[item.monthLabel] = item.data; });
-                setHistoricalData(obj);
-            } else {
-                // One-time migration from localStorage
-                const lsSaved = localStorage.getItem('sophosHistoricalData');
-                if (lsSaved) {
-                    try {
-                        const parsed = JSON.parse(lsSaved);
-                        setHistoricalData(parsed);
-                        for (const [monthLabel, data] of Object.entries(parsed))
-                            await dbPut(STORE_HIST, { monthLabel, data });
-                    } catch (e) { console.error('History migration error:', e); }
-                }
-            }
+            try {
+                const [hist, cfg, scfg, skuCat, cat] = await Promise.all([
+                    apiGetHistory(),
+                    apiGetConfig('clientSkuConfig'),
+                    apiGetConfig('serialConfig'),
+                    apiGetConfig('skuCatalog'),
+                    apiGetConfig('centralCatalog'),
+                ]);
 
-            // Client SKU config
-            const cfg = await dbGet(STORE_CFG, 'clientSkuConfig');
-            if (cfg) {
-                setClientSkuConfig(cfg.data || []);
-            } else {
-                const ls = localStorage.getItem('sophosClientSkuConfig');
-                if (ls) {
-                    try {
-                        const parsed = JSON.parse(ls);
-                        setClientSkuConfig(parsed);
-                        await dbPut(STORE_CFG, { id: 'clientSkuConfig', data: parsed });
-                    } catch (e) { console.error('Config migration error:', e); }
-                }
-            }
+                setHistoricalData(hist || {});
+                setClientSkuConfig(cfg || []);
+                setSerialConfig(scfg || []);
+                setSkuCatalog(skuCat || []);
+                if (cat) setCentralCatalog(cat);
 
-            // Central catalog
-            const cat = await dbGet(STORE_CFG, 'centralCatalog');
-            if (cat) setCentralCatalog(cat.data);
+                // Once the API has answered, further state changes are real
+                // user edits, so stop skipping the auto-save effects.
+                skipNextConfigSave.current = false;
+                skipNextSerialSave.current = false;
+                skipNextSkuSave.current = false;
+                setLoadStatus('ready');
 
-            // Serial config
-            const scfg = await dbGet(STORE_CFG, 'serialConfig');
-            if (scfg) {
-                setSerialConfig(scfg.data || []);
-            } else {
-                const ls = localStorage.getItem('sophosSerialConfig');
-                if (ls) {
-                    try {
-                        const parsed = JSON.parse(ls);
-                        setSerialConfig(parsed);
-                        await dbPut(STORE_CFG, { id: 'serialConfig', data: parsed });
-                    } catch (e) { console.error('Serial config migration error:', e); }
+                // Detect legacy local-only data for a possible one-time migration.
+                const serverIsEmpty = !hist || Object.keys(hist).length === 0;
+                const serverConfigEmpty = (!cfg || cfg.length === 0) && (!scfg || scfg.length === 0);
+                if (serverIsEmpty || serverConfigEmpty) {
+                    const [legacyHist, legacyCfg, legacySerial] = await Promise.all([
+                        dbAll(STORE_HIST).catch(() => []),
+                        dbAll(STORE_CFG).catch(() => []),
+                    ]).then(([h, c]) => [
+                        h,
+                        (c.find(x => x.id === 'clientSkuConfig') || {}).data || [],
+                        (c.find(x => x.id === 'serialConfig')    || {}).data || [],
+                    ]);
+                    const legacyHistCount = (legacyHist || []).length;
+                    if (legacyHistCount > 0 || legacyCfg.length > 0 || legacySerial.length > 0) {
+                        setMigrationInfo({
+                            monthCount: legacyHistCount,
+                            configCount: legacyCfg.length,
+                            serialCount: legacySerial.length,
+                            legacyHist, legacyCfg, legacySerial,
+                        });
+                    }
                 }
+            } catch (e) {
+                console.error('Load error:', e);
+                setSyncError(e.message || String(e));
+                setLoadStatus('error');
+                skipNextConfigSave.current = false;
+                skipNextSerialSave.current = false;
+                skipNextSkuSave.current = false;
             }
         })();
     }, []);
 
-    /* ── Persist configs on change ─────────────────────────────────────── */
-    useEffect(() => { dbPut(STORE_CFG, { id: 'clientSkuConfig', data: clientSkuConfig }); }, [clientSkuConfig]);
-    useEffect(() => { dbPut(STORE_CFG, { id: 'serialConfig',    data: serialConfig    }); }, [serialConfig]);
+    /* ── Migrate this browser's legacy IndexedDB data to the server ─────── */
+    const handleMigrateLocalData = async () => {
+        if (!migrationInfo) return;
+        setMigrating(true);
+        try {
+            const { legacyHist, legacyCfg, legacySerial } = migrationInfo;
+            if (legacyHist && legacyHist.length) {
+                const obj = {};
+                legacyHist.forEach(item => { obj[item.monthLabel] = item.data; });
+                await apiPutHistoryBulk(obj);
+                const merged = await apiGetHistory();
+                setHistoricalData(merged || {});
+            }
+            if (legacyCfg && legacyCfg.length) {
+                const existing = new Set(clientSkuConfig.map(c => `${c.clientName}|||${c.sku}`));
+                const merged = [...clientSkuConfig, ...legacyCfg.filter(c => !existing.has(`${c.clientName}|||${c.sku}`))];
+                setClientSkuConfig(merged);
+                await apiPutConfig('clientSkuConfig', merged);
+            }
+            if (legacySerial && legacySerial.length) {
+                const existing = new Set(serialConfig.map(s => s.serialNumber));
+                const merged = [...serialConfig, ...legacySerial.filter(s => !existing.has(s.serialNumber))];
+                setSerialConfig(merged);
+                await apiPutConfig('serialConfig', merged);
+            }
+            setMigrationInfo(null);
+            setSaveStatus('Local data migrated to server');
+            setTimeout(() => setSaveStatus(''), 4000);
+        } catch (e) {
+            console.error('Migration error:', e);
+            alert('Migration failed: ' + e.message);
+        } finally {
+            setMigrating(false);
+        }
+    };
+
+    /* ── Persist configs to server on change ─────────────────────────────
+       skipNext*Save refs prevent an unnecessary PUT from firing the moment
+       data first arrives from the initial load. */
+    useEffect(() => {
+        if (skipNextConfigSave.current) return;
+        apiPutConfig('clientSkuConfig', clientSkuConfig).catch(e => setSyncError(e.message));
+    }, [clientSkuConfig]);
+    useEffect(() => {
+        if (skipNextSerialSave.current) return;
+        apiPutConfig('serialConfig', serialConfig).catch(e => setSyncError(e.message));
+    }, [serialConfig]);
+    useEffect(() => {
+        if (skipNextSkuSave.current) return;
+        apiPutConfig('skuCatalog', skuCatalog).catch(e => setSyncError(e.message));
+    }, [skuCatalog]);
 
     /* ── File upload ───────────────────────────────────────────────────── */
     const handleFileUpload = (e) => {
@@ -282,7 +435,8 @@ const SophosUsageTracker = () => {
         if (!files.length) return;
 
         const skipped = [];
-        setBulkProgress(`Processing ${files.length} files...`);
+        const toSave = {}; // monthLabel -> snapshot, sent to the server in one batch
+        setBulkProgress(`Parsing ${files.length} files...`);
         let ok = 0, fail = 0;
 
         for (const file of files) {
@@ -305,19 +459,31 @@ const SophosUsageTracker = () => {
                 data.forEach(({ client, sku, qty }) => {
                     if (client && sku) snapshot[`${client}|||${sku}`] = qty;
                 });
-                await dbPut(STORE_HIST, { monthLabel, data: snapshot });
+                toSave[monthLabel] = snapshot;
                 ok++;
             } catch (err) {
                 skipped.push(`${file.name} (${err.message})`);
                 fail++;
             }
-            setBulkProgress(`Processed ${ok + fail}/${files.length}...`);
         }
 
-        const all = await dbAll(STORE_HIST);
-        const obj = {};
-        all.forEach(item => { obj[item.monthLabel] = item.data; });
-        setHistoricalData(obj);
+        if (Object.keys(toSave).length) {
+            setBulkProgress(`Uploading ${Object.keys(toSave).length} month(s) to server...`);
+            try {
+                await apiPutHistoryBulk(toSave);
+            } catch (err) {
+                skipped.push(`Server upload failed: ${err.message}`);
+                fail += Object.keys(toSave).length;
+                ok -= Object.keys(toSave).length;
+            }
+        }
+
+        try {
+            const merged = await apiGetHistory();
+            setHistoricalData(merged || {});
+        } catch (err) {
+            setSyncError(err.message);
+        }
 
         if (skipped.length > 0) {
             setBulkProgress(`Done: ${ok} saved, ${fail} skipped — ${skipped.join(' | ')}`);
@@ -332,9 +498,13 @@ const SophosUsageTracker = () => {
         if (!currentMonthLabel) { alert('Enter a month label (e.g., Sophos-0126)'); return; }
         const snapshot = {};
         invoiceData.forEach(({ client, sku, qty }) => { snapshot[`${client}|||${sku}`] = qty; });
-        await dbPut(STORE_HIST, { monthLabel: currentMonthLabel, data: snapshot });
-        setHistoricalData(prev => ({ ...prev, [currentMonthLabel]: snapshot }));
-        setSaveStatus(`Saved ${currentMonthLabel}`);
+        try {
+            await apiPutHistory(currentMonthLabel, snapshot);
+            setHistoricalData(prev => ({ ...prev, [currentMonthLabel]: snapshot }));
+            setSaveStatus(`Saved ${currentMonthLabel} to server`);
+        } catch (e) {
+            setSaveStatus(`Save failed: ${e.message}`);
+        }
         setTimeout(() => setSaveStatus(''), 3000);
     };
 
@@ -413,6 +583,26 @@ const SophosUsageTracker = () => {
         }
     };
 
+    /* ── Backfill blank descriptions on existing rows from the SKU Catalog ── */
+    const handleBackfillDescriptions = () => {
+        if (!skuCatalog.length) { alert('Load the SKU Catalog first (see the SKU Catalog panel above).'); return; }
+        const bySku = new Map(skuCatalog.map(c => [c.sku, c.description]));
+        let count = 0;
+        const updated = clientSkuConfig.map(cfg => {
+            if (!cfg.description && bySku.has(cfg.sku)) {
+                count++;
+                return { ...cfg, description: bySku.get(cfg.sku) };
+            }
+            return cfg;
+        });
+        if (count > 0) {
+            setClientSkuConfig(updated);
+            alert(`Backfilled description for ${count} entries.`);
+        } else {
+            alert('Nothing to backfill — either every row already has a description, or none of the blank SKUs are in the catalog yet.');
+        }
+    };
+
     /* ── Central catalog import ───────────────────────────────────────── */
     const handleImportCatalog = (e) => {
         const file = e.target.files[0];
@@ -426,13 +616,38 @@ const SophosUsageTracker = () => {
                     return;
                 }
                 setCentralCatalog(data);
-                await dbPut(STORE_CFG, { id: 'centralCatalog', data });
+                await apiPutConfig('centralCatalog', data);
                 alert(`Catalog loaded: ${Object.keys(data.tenants).length} tenants, generated ${data.generatedAt}`);
             } catch (err) {
                 alert('Error parsing catalog: ' + err.message);
             }
         };
         reader.readAsText(file);
+    };
+
+    /* ── SKU Catalog CSV import ────────────────────────────────────────── */
+    const handleImportSkuCatalogCSV = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            const { data, error } = parseSkuCatalogCSV(ev.target.result);
+            if (error) { alert('SKU catalog import error: ' + error); return; }
+            setSkuCatalog(prev => {
+                const bySku = new Map(prev.map(c => [c.sku, c]));
+                data.forEach(c => bySku.set(c.sku, c)); // new/updated entries win
+                return Array.from(bySku.values());
+            });
+            alert(`Imported ${data.length} SKU/description pairs.`);
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+    };
+
+    // Given a description the user typed/selected, find the matching SKU.
+    const lookupSkuByDescription = (description) => {
+        const match = skuCatalog.find(c => c.description === description);
+        return match ? match.sku : '';
     };
 
     /* ── Export helper ─────────────────────────────────────────────────── */
@@ -529,10 +744,47 @@ const SophosUsageTracker = () => {
                         <h1 className="text-4xl font-bold text-white">Sophos Usage Tracker</h1>
                     </div>
                     <p className="text-sky-200 text-lg">Rolling 12-Month Analysis &amp; QuickBooks Adjustment Calculator</p>
-                    {histCount > 0 && (
-                        <p className="mt-2 text-sm text-sky-300/60">
-                            {histCount} month(s) stored in IndexedDB — history persists across reloads
+
+                    {loadStatus === 'loading' && (
+                        <p className="mt-2 text-sm text-slate-400">Loading data from server…</p>
+                    )}
+                    {loadStatus === 'ready' && (
+                        <p className="mt-2 text-sm text-sky-300/60 flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" />
+                            {histCount} month(s) synced from server — shared across all browsers/devices
                         </p>
+                    )}
+                    {loadStatus === 'error' && (
+                        <p className="mt-2 text-sm text-red-300">
+                            Couldn't reach the server API ({syncError || 'unknown error'}). Check that the /api backend is deployed and its storage connection is configured.
+                        </p>
+                    )}
+                    {syncError && loadStatus !== 'error' && (
+                        <p className="mt-2 text-sm text-amber-300">Last sync warning: {syncError}</p>
+                    )}
+
+                    {migrationInfo && (
+                        <div className="mt-4 p-4 bg-violet-900/30 border border-violet-500/40 rounded-lg flex items-center justify-between gap-4 flex-wrap">
+                            <p className="text-sm text-violet-100">
+                                Found local data in this browser that isn't on the server yet:{' '}
+                                {migrationInfo.monthCount > 0 && <span className="mono">{migrationInfo.monthCount} month(s)</span>}
+                                {migrationInfo.monthCount > 0 && (migrationInfo.configCount > 0 || migrationInfo.serialCount > 0) && ', '}
+                                {migrationInfo.configCount > 0 && <span className="mono">{migrationInfo.configCount} client/SKU config row(s)</span>}
+                                {migrationInfo.configCount > 0 && migrationInfo.serialCount > 0 && ', '}
+                                {migrationInfo.serialCount > 0 && <span className="mono">{migrationInfo.serialCount} serial(s)</span>}.
+                                {' '}Push it to the server so it's available everywhere?
+                            </p>
+                            <div className="flex gap-2 shrink-0">
+                                <button onClick={handleMigrateLocalData} disabled={migrating}
+                                    className="px-4 py-2 bg-violet-600 hover:bg-violet-500 disabled:bg-slate-700 text-white rounded-lg font-medium transition-colors text-sm">
+                                    {migrating ? 'Migrating…' : 'Migrate to Server'}
+                                </button>
+                                <button onClick={() => setMigrationInfo(null)}
+                                    className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors text-sm">
+                                    Dismiss
+                                </button>
+                            </div>
+                        </div>
                     )}
                 </div>
 
@@ -610,6 +862,83 @@ const SophosUsageTracker = () => {
                     </div>
                 </div>
 
+                {/* ── SKU Catalog ── */}
+                <div className="glass rounded-2xl p-6 fade-in" style={{ animationDelay: '0.15s' }}>
+                    <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
+                        <div>
+                            <h2 className="text-xl font-semibold text-white">SKU Catalog</h2>
+                            <p className="text-sm text-slate-400 mt-1">
+                                Maps Sophos SKUs to plain-English Descriptions so you can pick items by name below instead of memorizing SKU codes.
+                            </p>
+                        </div>
+                        <div className="flex gap-2 items-center flex-wrap">
+                            <label className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg cursor-pointer transition-colors text-sm">
+                                Import SKU/Description CSV
+                                <input type="file" accept=".csv,.txt,.tsv" className="hidden" onChange={handleImportSkuCatalogCSV} />
+                            </label>
+                            <label className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg cursor-pointer transition-colors text-sm">
+                                Import JSON
+                                <input type="file" accept=".json" className="hidden" onChange={e => importJSON(e, setSkuCatalog)} />
+                            </label>
+                            <button onClick={() => downloadJSON(skuCatalog, 'sophos-sku-catalog.json')}
+                                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors flex items-center gap-2 text-sm">
+                                <IcoDownload className="w-4 h-4" />Export
+                            </button>
+                            <button onClick={() => setSkuCatalogExpanded(x => !x)}
+                                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors text-sm">
+                                {skuCatalogExpanded ? 'Collapse' : 'Expand'}
+                            </button>
+                        </div>
+                    </div>
+
+                    {skuCatalogExpanded && (
+                        <div className="space-y-4">
+                            <div className="grid gap-3 p-4 bg-slate-800/50 rounded-lg" style={{ gridTemplateColumns: '1.5fr 2fr 0.8fr' }}>
+                                <input type="text" placeholder="SKU"
+                                    value={newSkuEntry.sku}
+                                    onChange={e => setNewSkuEntry(p => ({ ...p, sku: e.target.value }))}
+                                    className="px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white text-sm mono focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                                <input type="text" placeholder="Description"
+                                    value={newSkuEntry.description}
+                                    onChange={e => setNewSkuEntry(p => ({ ...p, description: e.target.value }))}
+                                    className="px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                                <button onClick={() => {
+                                    if (newSkuEntry.sku && newSkuEntry.description) {
+                                        setSkuCatalog(p => {
+                                            const bySku = new Map(p.map(c => [c.sku, c]));
+                                            bySku.set(newSkuEntry.sku, { ...newSkuEntry });
+                                            return Array.from(bySku.values());
+                                        });
+                                        setNewSkuEntry({ sku: '', description: '' });
+                                    }
+                                }} className="px-3 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded font-medium transition-colors text-sm">
+                                    Add
+                                </button>
+                            </div>
+
+                            {skuCatalog.length === 0 ? (
+                                <div className="text-center py-8 text-slate-400 text-sm">
+                                    No SKU/Description pairs yet. Add them above, or import a CSV with "SKU" and "Description" columns.
+                                </div>
+                            ) : (
+                                <div className="space-y-2 max-h-72 overflow-y-auto">
+                                    {skuCatalog.map((c, i) => (
+                                        <div key={i} className="grid gap-3 p-3 bg-slate-800/30 rounded-lg items-center text-sm"
+                                            style={{ gridTemplateColumns: '1.5fr 2fr 0.8fr' }}>
+                                            <span className="text-sky-300 mono text-xs truncate">{c.sku}</span>
+                                            <span className="text-white truncate">{c.description}</span>
+                                            <button onClick={() => setSkuCatalog(p => p.filter((_, j) => j !== i))}
+                                                className="px-3 py-1 bg-red-600/20 hover:bg-red-600/40 text-red-300 rounded transition-colors text-xs">
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+
                 {/* ── Client SKU Config ── */}
                 <div className="glass rounded-2xl p-6 fade-in" style={{ animationDelay: '0.2s' }}>
                     <div className="flex justify-between items-center mb-4 flex-wrap gap-3">
@@ -633,6 +962,12 @@ const SophosUsageTracker = () => {
                                     ⚡ Auto-Populate from CSV
                                 </button>
                             )}
+                            {skuCatalog.length > 0 && clientSkuConfig.some(c => !c.description) && (
+                                <button onClick={handleBackfillDescriptions}
+                                    className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg font-medium transition-colors">
+                                    🏷️ Backfill Descriptions
+                                </button>
+                            )}
                             <label className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg cursor-pointer transition-colors">
                                 Import Config
                                 <input type="file" accept=".json" className="hidden"
@@ -651,13 +986,34 @@ const SophosUsageTracker = () => {
 
                     {configExpanded && (
                         <div className="space-y-4">
-                            {/* Add row */}
-                            <div className="grid gap-3 p-4 bg-slate-800/50 rounded-lg" style={{ gridTemplateColumns: '2fr 1.5fr 2fr 1fr 1fr 0.8fr 0.8fr' }}>
-                                {[['text','Client Name','clientName'],['text','SKU','sku'],['text','Description','description'],
-                                  ['number','Exp Qty','expectedQty'],['number','Billing Rate','billingRate']].map(([type, ph, field]) => (
+                            {/* Add row — Description is the primary field (autocompletes from SKU Catalog below); SKU auto-fills */}
+                            <datalist id="skuCatalogDescList">
+                                {[...new Set(skuCatalog.map(c => c.description))].map(d => <option key={d} value={d} />)}
+                            </datalist>
+                            <div className="grid gap-3 p-4 bg-slate-800/50 rounded-lg" style={{ gridTemplateColumns: '2fr 2fr 1.3fr 1fr 1fr 0.8fr 0.8fr' }}>
+                                <input type="text" placeholder="Client Name"
+                                    value={newClientSku.clientName}
+                                    onChange={e => setNewClientSku(p => ({ ...p, clientName: e.target.value }))}
+                                    className="px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                                <input type="text" placeholder="Description (start typing to search catalog)"
+                                    list="skuCatalogDescList"
+                                    value={newClientSku.description}
+                                    onChange={e => {
+                                        const val = e.target.value;
+                                        const matchedSku = lookupSkuByDescription(val);
+                                        setNewClientSku(p => ({ ...p, description: val, sku: matchedSku || p.sku }));
+                                    }}
+                                    className="px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                                <input type="text" placeholder="SKU (auto-fills)"
+                                    value={newClientSku.sku}
+                                    onChange={e => setNewClientSku(p => ({ ...p, sku: e.target.value }))}
+                                    title={lookupSkuByDescription(newClientSku.description) ? 'Matched from SKU Catalog' : 'No catalog match — enter manually'}
+                                    className={`px-3 py-2 bg-slate-900 border rounded text-white text-sm mono focus:outline-none focus:ring-2 focus:ring-sky-400 ${
+                                        newClientSku.sku && lookupSkuByDescription(newClientSku.description) === newClientSku.sku ? 'border-emerald-500/60' : 'border-slate-600'}`} />
+                                {[['number','Exp Qty','expectedQty'],['number','Billing Rate','billingRate']].map(([type, ph, field]) => (
                                     <input key={field} type={type} placeholder={ph}
                                         value={newClientSku[field] || ''}
-                                        onChange={e => setNewClientSku(p => ({ ...p, [field]: type === 'number' ? parseFloat(e.target.value) || 0 : e.target.value }))}
+                                        onChange={e => setNewClientSku(p => ({ ...p, [field]: parseFloat(e.target.value) || 0 }))}
                                         className="px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-400" />
                                 ))}
                                 <label className="flex items-center gap-2 text-white text-sm px-1">
@@ -670,20 +1026,27 @@ const SophosUsageTracker = () => {
                                     if (newClientSku.clientName && newClientSku.sku) {
                                         setClientSkuConfig(p => [...p, { ...newClientSku }]);
                                         setNewClientSku({ clientName: '', sku: '', description: '', trackUsage: true, expectedQty: 0, billingRate: 0 });
+                                    } else {
+                                        alert('Need at least a Client Name and a SKU (pick a Description from the catalog, or enter the SKU manually).');
                                     }
                                 }} className="px-3 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded font-medium transition-colors text-sm">
                                     Add
                                 </button>
                             </div>
+                            {skuCatalog.length === 0 && (
+                                <p className="text-xs text-amber-300/80 -mt-2">
+                                    No SKU Catalog loaded yet — the Description field won't autocomplete until you add entries in the "SKU Catalog" section below.
+                                </p>
+                            )}
 
                             {/* List */}
                             <div className="space-y-2 max-h-96 overflow-y-auto">
                                 {clientSkuConfig.map((cfg, i) => (
                                     <div key={i} className="grid gap-3 p-3 bg-slate-800/30 rounded-lg items-center text-sm"
-                                        style={{ gridTemplateColumns: '2fr 1.5fr 2fr 1fr 1fr 0.8fr 0.8fr' }}>
+                                        style={{ gridTemplateColumns: '2fr 2fr 1.3fr 1fr 1fr 0.8fr 0.8fr' }}>
                                         <span className="text-white font-medium truncate">{cfg.clientName}</span>
+                                        <span className="text-slate-300 truncate" title={`SKU: ${cfg.sku}`}>{cfg.description || <em className="text-slate-500">no description</em>}</span>
                                         <span className="text-sky-300 mono text-xs truncate">{cfg.sku}</span>
-                                        <span className="text-slate-300 truncate">{cfg.description}</span>
                                         <span className="text-slate-300 mono">{cfg.expectedQty}</span>
                                         <span className="text-emerald-300 mono">${cfg.billingRate}</span>
                                         <span className={cfg.trackUsage ? 'text-emerald-300' : 'text-slate-500'}>
